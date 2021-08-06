@@ -1,0 +1,3 @@
+/*MySQL Credentials*/
+<Username>Hdsa</Username>
+<Password>asde</Password>
