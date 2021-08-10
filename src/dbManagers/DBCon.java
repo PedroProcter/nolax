@@ -9,7 +9,6 @@ public class DBCon {
     private Connection con;
     private String host,port,dbname,user,pss;
     
-    
     DBCon(String host, String port, String dbname,String user, String pss){
         
         this.host = host;
@@ -20,7 +19,6 @@ public class DBCon {
         
         this. ChargeClassForName();
         this.createCon();
-        
           
     }
     
@@ -29,7 +27,7 @@ public class DBCon {
         String url = "jdbc:mysql://"+this.host+":"+this.port+"/"+this.dbname;
         try{
         
-            con = DriverManager.getConnection(url,this.user,this.pss);
+            this.con = DriverManager.getConnection(url,this.user,this.pss);
             
         }catch(Exception e){System.out.println(e);}
         
@@ -39,13 +37,12 @@ public class DBCon {
         
         manager.setDBConnection(this.con);
         
-        
     }
     
     private void ChargeClassForName(){
         try{
             
-        Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
         
         }catch(Exception e){System.out.println(e);}
     
