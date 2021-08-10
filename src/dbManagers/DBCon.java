@@ -37,6 +37,9 @@ public class DBCon {
     
     public void getConection(CanGetDBConnection manager){
         
+        manager.setDBConnection(this.con);
+        
+        
     }
     
     private void ChargeClassForName(){
