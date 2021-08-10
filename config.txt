@@ -1,5 +1,5 @@
 /*MySQL Credentials*/
-<Host>https://sql5.freesqldatabase.com/</Host>
+<Host>sql5.freesqldatabase.com</Host>
 <HostPort>3306</HostPort>
 <DBName>sql5430097</DBName>
 <Username>sql5430097</Username>
