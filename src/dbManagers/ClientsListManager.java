@@ -11,7 +11,7 @@ import dataclasses.Client;
 public class ClientsListManager implements CanGetDBConnection {
 
     protected Connection dbConnection;
-    protected ArrayList<Client> clients;
+    protected ArrayList<Client> clients = new ArrayList<Client>();
 
     @Override
     public void setDBConnection(Connection dbConnection) {
