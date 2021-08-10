@@ -40,12 +40,4 @@ public class ConfigParser {
         return output;
     }
 
-    public static void main(String[] args) {
-        ConfigurationFileManager fileManager = new ConfigurationFileManager();
-        fileManager.loadContent();
-        ConfigParser configParser = new ConfigParser(fileManager.getFileContent());
-        System.out.println(configParser.getAttributeValueForName("Host"));
-    }
-
-
 }
