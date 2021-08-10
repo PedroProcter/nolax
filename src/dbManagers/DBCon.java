@@ -9,7 +9,7 @@ public class DBCon {
     private Connection con;
     private String host,port,dbname,user,pss;
     
-    DBCon(String host, String port, String dbname,String user, String pss){
+    public DBCon(String host, String port, String dbname,String user, String pss){
         
         this.host = host;
         this.port = port;
