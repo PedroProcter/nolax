@@ -19,6 +19,8 @@ public class ItemsListManage implements CanGetDBConnection {
     
     @Override
     public void setDBConnection(Connection dbConnection){
+
+        this.dbConnecion = dbConnection;
         
     }
     
