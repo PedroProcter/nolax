@@ -27,7 +27,7 @@ public class ItemsListManage implements CanGetDBConnection {
     /*
     Get rows of the table items
     */
-    public void getAllItems(){
+    public void loadAllItems(){
         String query = "SELECT * FORM items";
         
         try(Statement statement = this.dbConnecion.createStatement()){
@@ -50,4 +50,61 @@ public class ItemsListManage implements CanGetDBConnection {
                
     }
     
+       /**
+     * 
+     * Syncronize all the change that were make in local with the table Items
+     * 
+     */
+
+    public void dumpAllItems(){}
+
+      /**
+     * Adds a items to the ArraList
+     * @param items
+     */
+
+    public void addItem(PawnedItem items){
+        this.items.add(items);
+    }
+
+    /**
+     * Returns the index of a client
+     * @param clientId
+     * @return The index in the Arralist of the client
+     */
+
+     private int findItemIndex(String itemID){
+         int indexOfTheItem = -1;
+
+         for(PawnedItem item:(PawnedItem[]) this.items.toArray()){
+             if(item.getItemID().equals(itemID)){
+                 indexOfTheItem= this.items.indexOf(item);
+             }
+         }
+
+         return indexOfTheItem;
+     }
+
+     /**
+     * Deletes a Item from the ArrayList
+     * @param itemtId
+     */
+     public void deleteItem(String itemId){
+         this.items.remove(this.findItemIndex(itemId));
+     }
+
+     /**
+     * Returns a client object
+     * @param clientId
+     * @return The Client found. If there if no client found, then return null
+     */
+
+     public PawnedItem getItem(String itemId){
+         PawnedItem itemFound = null;
+
+         itemFound = this.items.get(this.findItemIndex(itemId));
+         
+         return itemFound;
+     }
+
 }
