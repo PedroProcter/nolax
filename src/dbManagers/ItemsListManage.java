@@ -10,7 +10,7 @@ import dataclasses.PawnedItem;
 
 public class ItemsListManage implements CanGetDBConnection {
     /*
-    This class provides method to manage an ArrayList of clients
+    This class provides method to manage an ArrayList of items
     
     */
     
@@ -68,9 +68,9 @@ public class ItemsListManage implements CanGetDBConnection {
     }
 
     /**
-     * Returns the index of a client
-     * @param clientId
-     * @return The index in the Arralist of the client
+     * Returns the index of a item
+     * @param ItemId
+     * @return The index in the Arralist of the item
      */
 
      private int findItemIndex(String itemID){
@@ -94,9 +94,9 @@ public class ItemsListManage implements CanGetDBConnection {
      }
 
      /**
-     * Returns a client object
-     * @param clientId
-     * @return The Client found. If there if no client found, then return null
+     * Returns a Item object
+     * @param ItemId
+     * @return The Item found. If there if no Item found, then return null
      */
 
      public PawnedItem getItem(String itemId){
