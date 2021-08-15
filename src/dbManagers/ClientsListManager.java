@@ -26,7 +26,7 @@ public class ClientsListManager implements CanGetDBConnection {
      * Gets all the rows of the table clients
      * 
      */
-    public void getAllClients() {
+    public void loadAllClients() {
         String sqlQuery = "SELECT * FROM clients";
 
         try (Statement statement = this.dbConnection.createStatement()) {
@@ -49,7 +49,58 @@ public class ClientsListManager implements CanGetDBConnection {
         }
     }
 
+    /**
+     * 
+     * Syncronize all the change that were make in local with the table clients
+     * 
+     */
+    public void dumpAllClients() {}
+    
+    /**
+     * Adds a client to the ArraList
+     * @param client
+     */
+    public void addClient(Client client) {
+        this.clients.add(client);
+    }
 
+    /**
+     * Returns the index of a client
+     * @param clientId
+     * @return The index in the Arralist of the client
+     */
+    private int findClientIndex(String clientId) {
+        int indexOfTheClient = -1;
+
+        for (Client client: (Client[]) this.clients.toArray()) {
+            if (client.getClientID().equals(clientId)) {
+                indexOfTheClient = this.clients.indexOf(client);
+            }
+        }
+
+        return indexOfTheClient;
+    }
+
+    /**
+     * Deletes a client from the ArrayList
+     * @param clientId
+     */
+    public void deleteClient(String clientId) {
+        this.clients.remove(this.findClientIndex(clientId));
+    }
+
+    /**
+     * Returns a client object
+     * @param clientId
+     * @return The Client found. If there if no client found, then return null
+     */
+    public Client getClient(String clientId) {
+        Client clientFound = null;
+
+        clientFound = this.clients.get(this.findClientIndex(clientId));
+
+        return clientFound;
+    }
 
 }
 
