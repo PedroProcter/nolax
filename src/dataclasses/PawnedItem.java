@@ -14,7 +14,7 @@ public class PawnedItem {
 	
 	private String itemID;
 	private String itemName;
-	private int itemEstimateValue;
+	private double itemEstimateValue;
 	private String itemDescription;
 	
 	/**
@@ -44,13 +44,13 @@ public class PawnedItem {
 	/**
 	 * @return the itemEstimateValue
 	 */
-	public int getItemEstimateValue() {
+	public double getItemEstimateValue() {
 		return itemEstimateValue;
 	}
 	/**
 	 * @param itemEstimateValue the itemEstimateValue to set
 	 */
-	public void setItemEstimateValue(int itemEstimateValue) {
+	public void setItemEstimateValue(double itemEstimateValue) {
 		this.itemEstimateValue = itemEstimateValue;
 	}
 	/**
