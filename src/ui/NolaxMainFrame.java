@@ -198,11 +198,14 @@ public class NolaxMainFrame extends JFrame {
 		searchComponentsContainer.add(searchLabel);
 		searchLabel.setDisplayedMnemonic('s');
 		
+		ListPanelLoader listFiller = new ListPanelLoader();
+		
 		searchTextField = new JTextField(20);
 		searchTextField.setBorder(new LineBorder(new Color(171, 173, 179), 1, true));
 		searchComponentsContainer.add(searchTextField);
 		
 		JPanel listContainer = new JPanel();
+		listFiller.setTargetContainer(listContainer);
 		listContainer.setAutoscrolls(true);
 		listContainer.setBackground(this.light_gray);
 		centerPanel.add(listContainer, BorderLayout.CENTER);
@@ -245,6 +248,7 @@ public class NolaxMainFrame extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				listTitle.setText("Agreements");
 				listContainer.removeAll();
+				listFiller.populateListPanel(null, 0.1f);
 				listContainer.validate();
 			}
 		});
