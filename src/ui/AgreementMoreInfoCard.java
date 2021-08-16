@@ -11,6 +11,7 @@ import java.awt.Component;
 import javax.swing.border.LineBorder;
 
 import dataclasses.PawnAgreement;
+import dbManagers.AgreementsListManager;
 
 import java.awt.FlowLayout;
 import java.awt.Window.Type;
@@ -29,7 +30,7 @@ public class AgreementMoreInfoCard {
 	/**
 	 * Create the frame.
 	 */
-	public AgreementMoreInfoCard(PawnAgreement agreement) {
+	public AgreementMoreInfoCard(PawnAgreement agreement, JPanel targetContainer, AgreementsListManager targetManager) {
 		JFrame frmAgreement = new JFrame("Client");
 		frmAgreement.setTitle("Agreement");
 		//frame.setUndecorated(true);
@@ -209,11 +210,22 @@ public class AgreementMoreInfoCard {
 				agreement.setAgreementDescription(textArea.getText());
 				agreement.setAgreementConditions(textArea_2.getText());
 				agreement.Comments = textArea_1.getText();
+				
+				targetContainer.revalidate();
+				targetContainer.repaint();
 			}
 		});
 		panel_7.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("delete");
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				targetManager.deleteAgreement(agreement.getAgreementID());
+				targetContainer.revalidate();
+				targetContainer.repaint();
+			}
+		});
 		panel_7.add(btnNewButton_1);
 		
 		

@@ -11,6 +11,7 @@ import java.awt.Component;
 import javax.swing.border.LineBorder;
 
 import dataclasses.Client;
+import dbManagers.ClientsListManager;
 
 import java.awt.FlowLayout;
 import java.awt.Window.Type;
@@ -29,7 +30,7 @@ public class ClientMoreInfoCard {
 	/**
 	 * Create the frame.
 	 */
-	public ClientMoreInfoCard(Client client) {
+	public ClientMoreInfoCard(Client client, JPanel targetContainer, ClientsListManager targetManager) {
 		JFrame frame = new JFrame("Client");
 		//frame.setUndecorated(true);
 		frame.setType(Type.POPUP);
@@ -175,11 +176,22 @@ public class ClientMoreInfoCard {
 				client.setClientTelephoneNumber(textField_3.getText());
 				client.setClientEmail(textField_4.getText());
 				client.setClientAddress(textField_5.getText());
+				
+				targetContainer.revalidate();
+				targetContainer.repaint();
 			}
 		});
 		panel_7.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("delete");
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				targetManager.deleteClient(client.getClientID());
+				targetContainer.revalidate();
+				targetContainer.repaint();
+			}
+		});
 		panel_7.add(btnNewButton_1);
 		
 		
