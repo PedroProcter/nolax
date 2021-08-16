@@ -60,7 +60,7 @@ public class ItemsListManage implements CanGetDBConnection {
     public void dumpAllItems(){}
 
       /**
-     * Adds a items to the ArraList
+     * Adds a items to the ArrayList
      * @param items
      */
 
