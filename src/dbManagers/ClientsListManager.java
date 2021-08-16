@@ -16,7 +16,6 @@ public class ClientsListManager implements CanGetDBConnection {
     private Connection dbConnection;
     private ArrayList<Client> clients = new ArrayList<Client>();
     private String changeHistory = "";
-    //private ArrayList<String> queryList = new ArrayList<String>();
 
     @Override
     public void setDBConnection(Connection dbConnection) {
@@ -60,12 +59,20 @@ public class ClientsListManager implements CanGetDBConnection {
 
         try(Statement statement = this.dbConnection.createStatement()){
 
-            statement.executeQuery(changeHistory);     
+        	if (!changeHistory.isBlank()) {
+	        	 String[] changes = changeHistory.split(";");
+	             
+	             for (int index = 0; index < changes.length; index++) {
+	            	 if (!changes[index].isBlank()) {statement.execute(changes[index]);}
+	             }
+        	}   
 
         }catch(SQLException e){
             e.printStackTrace();
 
         }
+        
+        changeHistory = "";
 
     }
     
@@ -75,13 +82,13 @@ public class ClientsListManager implements CanGetDBConnection {
      */
     public void addClient(Client client) {
 
-        String sqlQuery = "INSET INTO TABLE items (name,last_name,phone,email,address) " + 
-        "VALUES ('"+
+        String sqlQuery = "INSERT INTO clients (client_id,name,last_name,phone,email,address) " + 
+        "VALUES ('"+client.getClientID()+"', '"+
         client.getClientName()+"', "+
         "'"+client.getClientLastname()+"', "+
         "'"+client.getClientTelephoneNumber()+"', "+
         "'"+client.getClientEmail()+"', " +
-        "'"+client.getClientAddress()+"'\n";
+        "'"+client.getClientAddress()+"');";
 
         //queryList.add(sqlQuery);
         
@@ -118,9 +125,7 @@ public class ClientsListManager implements CanGetDBConnection {
         this.clients.remove(this.findClientIndex(clientId));
 
         String sqlQuery = 
-        "DELETE FROM agreements WHERE client_id = '"+clientId+"'\n";
-
-        //queryList.add(sqlQuery);
+        "DELETE FROM clients WHERE client_id = '"+clientId+"';";
 
         changeHistory += sqlQuery;
         
@@ -146,25 +151,27 @@ public class ClientsListManager implements CanGetDBConnection {
 
      public void changeItem(String oldId, Client newClient){
         
+    	 if (findClientIndex(oldId) != -1) {
+    	 
         Client oldClient = clients.get(findClientIndex(oldId));
-
-        String sqlQuery = "UPDATE clients" +
-        "SET name = '"+ newClient.getClientName()+"', "+
-        "last_name = '"+ newClient.getClientLastname()+"', "+
-        "phone = '"+ newClient.getClientTelephoneNumber()+"', "+
-        "email = '"+ newClient.getClientEmail()+"', "+
-        "address = '"+ newClient.getClientAddress()+"', "+
-        "WHERE client_id = '"+ newClient.getClientID()+"'\n";
-
-        //queryList.add(sqlQuery);
-
-        changeHistory += sqlQuery;
- 
-        oldClient.setClientName(newClient.getClientName());
-        oldClient.setClientLastname(newClient.getClientLastname());
-        oldClient.setClientTelephoneNumber(newClient.getClientTelephoneNumber());
-        oldClient.setClientEmail(newClient.getClientEmail());
-        oldClient.setClientAddress(newClient.getClientAddress());
+	        String sqlQuery = "UPDATE clients" +
+	        " SET name = '"+ newClient.getClientName()+"', "+
+	        "last_name = '"+ newClient.getClientLastname()+"', "+
+	        "phone = '"+ newClient.getClientTelephoneNumber()+"', "+
+	        "email = '"+ newClient.getClientEmail()+"', "+
+	        "address = '"+ newClient.getClientAddress()+"' "+
+	        " WHERE client_id = '"+ oldId+"';";
+	
+	        changeHistory += sqlQuery;
+	 
+	        oldClient.setClientName(newClient.getClientName());
+	        oldClient.setClientLastname(newClient.getClientLastname());
+	        oldClient.setClientTelephoneNumber(newClient.getClientTelephoneNumber());
+	        oldClient.setClientEmail(newClient.getClientEmail());
+	        oldClient.setClientAddress(newClient.getClientAddress());
+        }else{
+        	this.addClient(newClient);
+        }
 
 
      }

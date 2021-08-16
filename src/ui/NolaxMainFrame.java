@@ -26,6 +26,7 @@ import javax.swing.border.LineBorder;
 import config_manager.ConfigParser;
 import config_manager.ConfigurationFileManager;
 import dataclasses.Client;
+import dataclasses.PawnAgreement;
 import dataclasses.PawnedItem;
 import dbManagers.*;
 
@@ -276,7 +277,6 @@ public class NolaxMainFrame extends JFrame {
 		listFiller.populateListPanel(agreementsManager, "");
 		
 		JScrollPane scrollPane = new JScrollPane(listContainer);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		scrollPane.setAutoscrolls(true);
 		scrollPane.setViewportBorder(null);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -286,7 +286,6 @@ public class NolaxMainFrame extends JFrame {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				listContainer.removeAll();
-				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
 				
 				switch (listTitle.getText()) {
 				
@@ -326,18 +325,18 @@ public class NolaxMainFrame extends JFrame {
 				case "Clients": 
 					ClientMoreInfoCard clientInfoCard = new ClientMoreInfoCard(new Client(), listContainer, clientsManager);
 					clientInfoCard.disableDeleteButton();
-					clientInfoCard.setToSave();
 					break;
 			
 				case "Agreements": 						
-					//listFiller.populateListPanel(agreementsManager, searchTextField.getText());
+					AgreementMoreInfoCard agreementInfoCard = new AgreementMoreInfoCard(new PawnAgreement(), listContainer, agreementsManager);
+					agreementInfoCard.disableDeleteButton();
+					agreementInfoCard.disableIDTextField();
 					break;
 					
 				case "Items": 
 					ItemMoreInfoCard itemInfoCard = new ItemMoreInfoCard(new PawnedItem(), listContainer, itemsManager);
 					itemInfoCard.disableDeleteButton();
 					itemInfoCard.disableIDTextField();
-					itemInfoCard.setToSave();
 					break;
 				
 				default:
@@ -364,6 +363,7 @@ public class NolaxMainFrame extends JFrame {
 				listContainer.repaint();
 				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
 				listFiller.populateListPanel(clientsManager, "");
+				clientsManager.dumpAllClients();
 				
 			}
 		});
@@ -385,6 +385,7 @@ public class NolaxMainFrame extends JFrame {
 				listContainer.repaint();
 				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
 				listFiller.populateListPanel(agreementsManager, "");
+				agreementsManager.dumpAllAgreements();
 			}
 		});
 		
@@ -399,6 +400,7 @@ public class NolaxMainFrame extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				itemsManager.loadAllItems();
 				listTitle.setText("Items");
 				listContainer.removeAll();
 				listContainer.revalidate();

@@ -14,7 +14,7 @@ public class AgreementsListManager implements CanGetDBConnection {
      */
 
     private Connection dbConnection;
-    private ArrayList<PawnAgreement> pawnAgreements;
+    private ArrayList<PawnAgreement> pawnAgreements = new ArrayList<PawnAgreement>();
     private String changeHistory = "";
 
     @Override
@@ -58,11 +58,17 @@ public class AgreementsListManager implements CanGetDBConnection {
      * Synchronize all the change that were make in local with the table clients
      * 
      */
-    public void dumpAllClients() {
+    public void dumpAllAgreements() {
 
         try(Statement statement = this.dbConnection.createStatement()){
 
-            statement.executeQuery(changeHistory);     
+        	if (!changeHistory.isBlank()) {
+	        	 String[] changes = changeHistory.split(";");
+	             
+	             for (int index = 0; index < changes.length; index++) {
+	            	 if (!changes[index].isBlank()) {statement.execute(changes[index]);}
+	             }
+        	}       
 
         }catch(SQLException e){
             e.printStackTrace();
@@ -80,15 +86,11 @@ public class AgreementsListManager implements CanGetDBConnection {
 
         this.pawnAgreements.add(agreement);
 
-        String sqlQuery = "INSET INTO TABLE items " +
-        "(client_id,item_id,start_date,end_date,conditions,description) " + 
-        "VALUES ('"+
-        agreement.getClientID()+"', "+
-        agreement.getItemID()+", "+
-        agreement.getAgreementStartingDate()+"', "+
+        String sqlQuery = "INSERT INTO agreements " + "(client_id,item_id,start_date,end_date,conditions,description) " + 
+        "VALUES ('"+agreement.getClientID()+"', "+Integer.valueOf(agreement.getItemID())+", '"+agreement.getAgreementStartingDate()+"', "+
         "'"+agreement.getAgreementEndingDate()+"', "+
         "'"+agreement.getAgreementConditions()+"', "+
-        "'"+agreement.getAgreementDescription()+"'\n";
+        "'"+agreement.getAgreementDescription()+"');";
 
         changeHistory += sqlQuery;
     }
@@ -119,7 +121,7 @@ public class AgreementsListManager implements CanGetDBConnection {
     public void deleteAgreement(String agreementID) {
         
         String sqlQuery = 
-        "DELETE FROM agreements WHERE agreement_id = "+agreementID+"\n";
+        "DELETE FROM agreements WHERE agreement_id = "+agreementID+";";
 
         changeHistory += sqlQuery;
 
@@ -142,25 +144,29 @@ public class AgreementsListManager implements CanGetDBConnection {
 
     public void changeAgreement(String oldId, PawnAgreement newAgreement){
         
-        PawnAgreement oldAgreement = pawnAgreements.get(findItemIndex(oldId));
+    	if (findItemIndex(oldId) != -1) {
+    		PawnAgreement oldAgreement = pawnAgreements.get(findItemIndex(oldId));
 
-        String sqlQuery = "UPDATE agreements"+
-        "SET client_id = '"+ newAgreement.getClientID()+"',"+
-        "item_id = "+ newAgreement.getClientID()+","+
-        "start_date = '"+ newAgreement.getAgreementStartingDate()+"',"+
-        "end_date = '"+ newAgreement.getAgreementEndingDate()+"',"+
-        "conditions = '"+ newAgreement.getAgreementConditions()+"',"+
-        "description = '"+ newAgreement.getAgreementDescription()+
-        "' WHERE agreement_id = "+ newAgreement.getAgreementID()+"\n";
-
-        changeHistory += sqlQuery;
-
-        oldAgreement.setClientID(newAgreement.getClientID());
-        oldAgreement.setItemID(newAgreement.getItemID());
-        oldAgreement.setAgreementStartingDate(newAgreement.getAgreementStartingDate());
-        oldAgreement.setAgreementEndingDate(newAgreement.getAgreementEndingDate());
-        oldAgreement.setAgreementConditions(newAgreement.getAgreementConditions());
-        oldAgreement.setAgreementDescription(newAgreement.getAgreementDescription());
+        	String sqlQuery = "UPDATE agreements"+
+	        " SET client_id = '"+ newAgreement.getClientID()+"',"+
+	        "item_id = "+ Integer.valueOf(newAgreement.getItemID())+","+
+	        "start_date = '"+ newAgreement.getAgreementStartingDate()+"',"+
+	        "end_date = '"+ newAgreement.getAgreementEndingDate()+"',"+
+	        "conditions = '"+ newAgreement.getAgreementConditions()+"',"+
+	        "description = '"+ newAgreement.getAgreementDescription()+
+	        "' WHERE agreement_id = "+ newAgreement.getAgreementID()+";";
+	
+	        changeHistory += sqlQuery;
+	
+	        oldAgreement.setClientID(newAgreement.getClientID());
+	        oldAgreement.setItemID(newAgreement.getItemID());
+	        oldAgreement.setAgreementStartingDate(newAgreement.getAgreementStartingDate());
+	        oldAgreement.setAgreementEndingDate(newAgreement.getAgreementEndingDate());
+	        oldAgreement.setAgreementConditions(newAgreement.getAgreementConditions());
+	        oldAgreement.setAgreementDescription(newAgreement.getAgreementDescription());
+        }else {
+        	this.addAgreement(newAgreement);
+        }
 
      }
     

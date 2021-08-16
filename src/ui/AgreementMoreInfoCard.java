@@ -27,7 +27,14 @@ public class AgreementMoreInfoCard {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	
+	private JTextArea textArea;
+	private JTextArea textArea_1;
+	private JTextArea textArea_2;
+	
 	private ListPanelLoader listReloader = new ListPanelLoader();
+	
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
 
 	/**
 	 * Create the frame.
@@ -161,7 +168,7 @@ public class AgreementMoreInfoCard {
 		panel_6.setBackground(Color.WHITE);
 		panel_1_5.add(panel_6);
 		
-		JTextArea textArea_2 = new JTextArea(agreement.getAgreementConditions());
+		textArea_2 = new JTextArea(agreement.getAgreementConditions());
 		panel_6.add(textArea_2);
 		
 		JPanel panel_1_5_1 = new JPanel();
@@ -178,7 +185,7 @@ public class AgreementMoreInfoCard {
 		panel_6_1.setBackground(Color.WHITE);
 		panel_1_5_1.add(panel_6_1);
 		
-		JTextArea textArea = new JTextArea(agreement.getAgreementDescription());
+		textArea = new JTextArea(agreement.getAgreementDescription());
 		panel_6_1.add(textArea);
 		
 		JPanel panel_1_5_2 = new JPanel();
@@ -195,13 +202,13 @@ public class AgreementMoreInfoCard {
 		panel_6_2.setBackground(Color.WHITE);
 		panel_1_5_2.add(panel_6_2);
 		
-		JTextArea textArea_1 = new JTextArea(agreement.Comments);
+		textArea_1 = new JTextArea(agreement.Comments);
 		panel_6_2.add(textArea_1);
 		
 		JPanel panel_7 = new JPanel();
 		frmAgreement.getContentPane().add(panel_7);
 		
-		JButton btnNewButton = new JButton("save");
+		btnNewButton = new JButton("save");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -218,11 +225,13 @@ public class AgreementMoreInfoCard {
 				targetContainer.revalidate();
 				listReloader.populateListPanel(targetManager, "");
 				targetContainer.repaint();
+				
+				targetManager.changeAgreement(textField.getText(), agreement);
 			}
 		});
 		panel_7.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("delete");
+		btnNewButton_1 = new JButton("delete");
 		btnNewButton_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -240,6 +249,14 @@ public class AgreementMoreInfoCard {
 		
 		frmAgreement.setVisible(true);
 		
+	}
+	
+	public void disableDeleteButton() {
+		btnNewButton_1.setEnabled(false);
+	}
+	
+	public void disableIDTextField() {
+		textField.setEnabled(false);
 	}
 
 }

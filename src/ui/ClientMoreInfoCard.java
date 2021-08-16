@@ -31,19 +31,11 @@ public class ClientMoreInfoCard {
 	
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
-	
-	private ClientsListManager targetManager;
-	private Client client;
-	private JPanel targetContainer;
 
 	/**
 	 * Create the frame.
 	 */
-	public ClientMoreInfoCard(Client client, JPanel targetContainer, ClientsListManager targetManager) {
-		this.client = client;
-		this.targetContainer = targetContainer;
-		this.targetManager = targetManager;
-		
+	public ClientMoreInfoCard(Client client, JPanel targetContainer, ClientsListManager targetManager) {		
 		listReloader.setTargetContainer(targetContainer);
 		
 		JFrame frame = new JFrame("Client");
@@ -195,6 +187,8 @@ public class ClientMoreInfoCard {
 				targetContainer.revalidate();
 				listReloader.populateListPanel(targetManager, "");
 				targetContainer.repaint();
+				
+				targetManager.changeItem(textField.getText(), client);
 			}
 		});
 		panel_7.add(btnNewButton);
@@ -223,25 +217,5 @@ public class ClientMoreInfoCard {
 		btnNewButton_1.setEnabled(false);
 	}
 	
-	public void setToSave() {
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				client.setClientID(textField.getText());
-				client.setClientName(textField_1.getText());
-				client.setClientLastname(textField_2.getText());
-				client.setClientTelephoneNumber(textField_3.getText());
-				client.setClientEmail(textField_4.getText());
-				client.setClientAddress(textField_5.getText());
-				
-				targetContainer.removeAll();
-				targetContainer.revalidate();
-				listReloader.populateListPanel(targetManager, "");
-				targetContainer.repaint();
-				
-				targetManager.addClient(client);
-			}
-		});
-	}
 
 }

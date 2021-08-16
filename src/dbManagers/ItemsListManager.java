@@ -30,6 +30,8 @@ public class ItemsListManager implements CanGetDBConnection {
     public void loadAllItems(){
         String query = "SELECT * FROM items";
         
+        items.clear();
+        
         try(Statement statement = this.dbConnection.createStatement()){
             ResultSet resultSet = statement.executeQuery(query);
             
@@ -57,17 +59,24 @@ public class ItemsListManager implements CanGetDBConnection {
      */
 
     public void dumpAllItems(){
+    	
 
         try(Statement statement = this.dbConnection.createStatement()){
-
-            statement.executeQuery(changeHistory);     
+        	
+        	if (!changeHistory.isBlank()) {
+	        	 String[] changes = changeHistory.split(";");
+	             
+	             for (int index = 0; index < changes.length; index++) {
+	            	 if (!changes[index].isBlank()) {statement.execute(changes[index]);}
+	             }
+        	}
 
         }catch(SQLException e){
             e.printStackTrace();
 
         }
 
-
+        changeHistory = "";
 
     }
 
@@ -78,11 +87,11 @@ public class ItemsListManager implements CanGetDBConnection {
 
     public void addItem(PawnedItem items){
 
-        String sqlQuery = "INSERT INTO TABLE items (name,price,description) " + 
-        "VALUES ('"+
+        String sqlQuery = "INSERT INTO items(name,price,description) " + 
+        "VALUES('"+
         items.getItemName()+"', "+
         items.getItemEstimateValue()+", "+
-        "'"+items.getItemDescription()+"';";
+        "'"+items.getItemDescription()+"');";
         
         changeHistory += sqlQuery;
 
@@ -116,7 +125,7 @@ public class ItemsListManager implements CanGetDBConnection {
      public void deleteItem(String itemId){
         
         String sqlQuery = 
-        "DELETE FROM agreements WHERE item_id = '"+itemId+"';";
+        "DELETE FROM items WHERE item_id = "+itemId+";";
         changeHistory += sqlQuery;
 
 
@@ -133,7 +142,7 @@ public class ItemsListManager implements CanGetDBConnection {
 
      public PawnedItem getItem(String itemId){
          PawnedItem itemFound = null;
-
+       
          itemFound = this.items.get(this.findItemIndex(itemId));
          
          return itemFound;
@@ -145,20 +154,20 @@ public class ItemsListManager implements CanGetDBConnection {
      */
 
      public void changeItem(String oldId, PawnedItem newItem){
-
-        PawnedItem oldItem = items.get(findItemIndex(oldId));
-
-        String sqlQuery = "UPDATE items"+
-        "SET name = '"+ newItem.getItemName()+"', "+
-        "price = " + newItem.getItemEstimateValue() + ", "+
-        "description = '" + newItem.getItemDescription() +"'"+
-        "WHERE item_id = "+newItem.getItemID()+";"
-        ;
-        changeHistory += sqlQuery;
+    	
+    	if (findItemIndex(oldId) != -1) {PawnedItem oldItem = items.get(findItemIndex(oldId));
+	        String sqlQuery = "UPDATE items"+
+	        		" SET name = '"+ newItem.getItemName()+"', "+"price = " + newItem.getItemEstimateValue() + ", "+"description = '" + newItem.getItemDescription() +"'"+" "
+	        		+ "WHERE item_id = "+oldId+";";
+	        changeHistory += sqlQuery;
+	        
+	        oldItem.setItemName(newItem.getItemName());
+	        oldItem.setItemEstimateValue(newItem.getItemEstimateValue());
+	        oldItem.setItemDescription(newItem.getItemDescription());
+        }else {
+        	this.addItem(newItem);
+        }
         
-        oldItem.setItemName(newItem.getItemName());
-        oldItem.setItemEstimateValue(newItem.getItemEstimateValue());
-        oldItem.setItemDescription(newItem.getItemDescription());
 
      }
 

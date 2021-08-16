@@ -28,10 +28,6 @@ public class ItemMoreInfoCard {
 	
 	private ListPanelLoader listReloader = new ListPanelLoader();
 	
-	private PawnedItem item;
-	private JPanel targetContainer;
-	private ItemsListManager targetManager;
-	
 	private JButton btnNewButton_1;
 	private JButton btnNewButton;
 
@@ -40,10 +36,6 @@ public class ItemMoreInfoCard {
 	 */
 	public ItemMoreInfoCard(PawnedItem item, JPanel targetContainer, ItemsListManager targetManager) {
 		listReloader.setTargetContainer(targetContainer);
-		
-		this.item = item;
-		this.targetContainer = targetContainer;
-		this.targetManager = targetManager;
 		
 		JFrame frame = new JFrame("Item");
 		frame.setType(Type.POPUP);
@@ -144,6 +136,8 @@ public class ItemMoreInfoCard {
 				item.setItemName(textField_1.getText());
 				item.setItemEstimateValue(Double.valueOf(textField_2.getText()));
 				item.setItemDescription(textArea.getText());
+					
+				targetManager.changeItem(textField.getText(), item);
 				
 				targetContainer.removeAll();
 				targetContainer.revalidate();
@@ -178,25 +172,6 @@ public class ItemMoreInfoCard {
 	
 	public void disableIDTextField() {
 		this.textField.setEnabled(false);
-	}
-	
-	public void setToSave() {
-		btnNewButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				item.setItemID(textField.getText());
-				item.setItemName(textField_1.getText());
-				item.setItemEstimateValue(Double.valueOf(textField_2.getText()));
-				item.setItemDescription(textArea.getText());
-				
-				targetContainer.removeAll();
-				targetContainer.revalidate();
-				listReloader.populateListPanel(targetManager, "");
-				targetContainer.repaint();
-				
-				targetManager.addItem(item);
-			}
-		});
 	}
 
 }
