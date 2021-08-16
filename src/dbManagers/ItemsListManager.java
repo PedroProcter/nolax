@@ -75,7 +75,9 @@ public class ItemsListManager implements CanGetDBConnection {
      private int findItemIndex(String itemID){
          int indexOfTheItem = -1;
 
-         for(PawnedItem item:(PawnedItem[]) this.items.toArray()){
+         for(int index = 0; index < items.size(); index++){
+        	 PawnedItem item = items.get(index);
+        	 
              if(item.getItemID().equals(itemID)){
                  indexOfTheItem= this.items.indexOf(item);
              }
