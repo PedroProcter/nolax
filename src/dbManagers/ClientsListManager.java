@@ -131,4 +131,4 @@ public class ClientsListManager implements CanGetDBConnection {
 
      }
 
-
+}
