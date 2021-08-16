@@ -13,14 +13,14 @@ public class ItemsListManager implements CanGetDBConnection {
     *This class provides method to manage an ArrayList of items
     */
     
-    private Connection dbConnecion;
+    private Connection dbConnection;
     private ArrayList<PawnedItem> items = new ArrayList<PawnedItem>();
     private String changeHistory = "";
     
     @Override
     public void setDBConnection(Connection dbConnection){
 
-        this.dbConnecion = dbConnection;
+        this.dbConnection = dbConnection;
         
     }
     
@@ -30,7 +30,7 @@ public class ItemsListManager implements CanGetDBConnection {
     public void loadAllItems(){
         String query = "SELECT * FROM items";
         
-        try(Statement statement = this.dbConnecion.createStatement()){
+        try(Statement statement = this.dbConnection.createStatement()){
             ResultSet resultSet = statement.executeQuery(query);
             
             while(resultSet.next()){
@@ -78,11 +78,11 @@ public class ItemsListManager implements CanGetDBConnection {
 
     public void addItem(PawnedItem items){
 
-        String sqlQuery = "INSET INTO TABLE items (name,price,description) " + 
+        String sqlQuery = "INSERT INTO TABLE items (name,price,description) " + 
         "VALUES ('"+
         items.getItemName()+"', "+
         items.getItemEstimateValue()+", "+
-        "'"+items.getItemDescription()+"'\n";
+        "'"+items.getItemDescription()+"';";
         
         changeHistory += sqlQuery;
 
@@ -116,7 +116,7 @@ public class ItemsListManager implements CanGetDBConnection {
      public void deleteItem(String itemId){
         
         String sqlQuery = 
-        "DELETE FROM agreements WHERE item_id = '"+itemId+"'\n";
+        "DELETE FROM agreements WHERE item_id = '"+itemId+"';";
         changeHistory += sqlQuery;
 
 
@@ -152,7 +152,7 @@ public class ItemsListManager implements CanGetDBConnection {
         "SET name = '"+ newItem.getItemName()+"', "+
         "price = " + newItem.getItemEstimateValue() + ", "+
         "description = '" + newItem.getItemDescription() +"'"+
-        "WHERE item_id = "+newItem.getItemID()+"\n"
+        "WHERE item_id = "+newItem.getItemID()+";"
         ;
         changeHistory += sqlQuery;
         
