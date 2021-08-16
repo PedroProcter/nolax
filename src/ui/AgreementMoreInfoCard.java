@@ -11,6 +11,7 @@ import java.awt.Component;
 import javax.swing.border.LineBorder;
 
 import dataclasses.PawnAgreement;
+import dbManagers.AgreementsListManager;
 
 import java.awt.FlowLayout;
 import java.awt.Window.Type;
@@ -25,14 +26,17 @@ public class AgreementMoreInfoCard {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
+	
+	private ListPanelLoader listReloader = new ListPanelLoader();
 
 	/**
 	 * Create the frame.
 	 */
-	public AgreementMoreInfoCard(PawnAgreement agreement) {
+	public AgreementMoreInfoCard(PawnAgreement agreement, JPanel targetContainer, AgreementsListManager targetManager) {
+		listReloader.setTargetContainer(targetContainer);
+		
 		JFrame frmAgreement = new JFrame("Client");
 		frmAgreement.setTitle("Agreement");
-		//frame.setUndecorated(true);
 		frmAgreement.setType(Type.POPUP);
 		frmAgreement.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmAgreement.setBounds(100, 100, 450, 400);
@@ -209,11 +213,28 @@ public class AgreementMoreInfoCard {
 				agreement.setAgreementDescription(textArea.getText());
 				agreement.setAgreementConditions(textArea_2.getText());
 				agreement.Comments = textArea_1.getText();
+				
+				targetContainer.removeAll();
+				targetContainer.revalidate();
+				listReloader.populateListPanel(targetManager, "");
+				targetContainer.repaint();
 			}
 		});
 		panel_7.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("delete");
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				targetManager.deleteAgreement(agreement.getAgreementID());
+
+
+				targetContainer.removeAll();
+				targetContainer.revalidate();
+				listReloader.populateListPanel(targetManager, "");
+				targetContainer.repaint();
+			}
+		});
 		panel_7.add(btnNewButton_1);
 		
 		

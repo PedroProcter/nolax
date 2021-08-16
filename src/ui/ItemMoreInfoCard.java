@@ -11,6 +11,7 @@ import java.awt.Component;
 import javax.swing.border.LineBorder;
 
 import dataclasses.PawnedItem;
+import dbManagers.ItemsListManager;
 
 import java.awt.FlowLayout;
 import java.awt.Window.Type;
@@ -23,13 +24,16 @@ public class ItemMoreInfoCard {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	
+	private ListPanelLoader listReloader = new ListPanelLoader();
 
 	/**
 	 * Create the frame.
 	 */
-	public ItemMoreInfoCard(PawnedItem item) {
+	public ItemMoreInfoCard(PawnedItem item, JPanel targetContainer, ItemsListManager targetManager) {
+		listReloader.setTargetContainer(targetContainer);
+		
 		JFrame frame = new JFrame("Item");
-		//frame.setUndecorated(true);
 		frame.setType(Type.POPUP);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setBounds(100, 100, 450, 350);
@@ -128,11 +132,27 @@ public class ItemMoreInfoCard {
 				item.setItemName(textField_1.getText());
 				item.setItemEstimateValue(Double.valueOf(textField_2.getText()));
 				item.setItemDescription(textArea.getText());
+				
+				targetContainer.removeAll();
+				targetContainer.revalidate();
+				listReloader.populateListPanel(targetManager, "");
+				targetContainer.repaint();
 			}
 		});
 		panel_7.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("delete");
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				targetManager.deleteItem(item.getItemID());
+				
+				targetContainer.removeAll();
+				targetContainer.revalidate();
+				listReloader.populateListPanel(targetManager, "");
+				targetContainer.repaint();
+			}
+		});
 		panel_7.add(btnNewButton_1);
 		
 		
