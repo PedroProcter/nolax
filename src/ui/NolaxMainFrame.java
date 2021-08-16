@@ -25,6 +25,8 @@ import javax.swing.border.LineBorder;
 
 import config_manager.ConfigParser;
 import config_manager.ConfigurationFileManager;
+import dataclasses.Client;
+import dataclasses.PawnedItem;
 import dbManagers.*;
 
 import javax.swing.ScrollPaneConstants;
@@ -39,7 +41,7 @@ public class NolaxMainFrame extends JFrame {
 	
 	private Color light_gray = new Color(253, 253, 253);
 	private Color dark_blue = new Color(0, 0, 51);
-	private Color enteredZoneColor = new Color(51, 0, 51);
+	private Color dark_blue_1 = new Color(0, 0, 102);
 	
 	private AgreementsListManager agreementsManager = new AgreementsListManager();
 	private ClientsListManager clientsManager = new ClientsListManager();
@@ -54,7 +56,6 @@ public class NolaxMainFrame extends JFrame {
 			public void run() {
 				try {
 					NolaxMainFrame frame = new NolaxMainFrame();
-					//frame.initializeManagers();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -106,18 +107,18 @@ public class NolaxMainFrame extends JFrame {
 		setContentPane(contentPane);
 		
 		JPanel sideBarContainer = new JPanel();
-		sideBarContainer.setBackground(this.dark_blue);
+		sideBarContainer.setBackground(this.dark_blue_1);
 		contentPane.add(sideBarContainer, BorderLayout.WEST);
 		sideBarContainer.setLayout(new BoxLayout(sideBarContainer, BoxLayout.Y_AXIS));
 		
 		JPanel sideBar = new JPanel();
-		sideBar.setBackground(this.dark_blue);
+		sideBar.setBackground(this.dark_blue_1);
 		sideBarContainer.add(sideBar);
 		sideBar.setLayout(new BoxLayout(sideBar, BoxLayout.Y_AXIS));
 		
 		JPanel sideBarSpacer_2 = new JPanel();
 		sideBarSpacer_2.setMaximumSize(new Dimension(32767, 60));
-		sideBarSpacer_2.setBackground(this.dark_blue);
+		sideBarSpacer_2.setBackground(this.dark_blue_1);
 		sideBar.add(sideBarSpacer_2);
 		
 		JLabel logoLabel = new JLabel("Nolax");
@@ -133,16 +134,35 @@ public class NolaxMainFrame extends JFrame {
 		sideBarSpacer_1.setPreferredSize(new Dimension(10, 80));
 		sideBarSpacer_1.setMinimumSize(new Dimension(10, 80));
 		sideBarSpacer_1.setMaximumSize(new Dimension(32767, 80));
-		sideBarSpacer_1.setBackground(this.dark_blue);
+		sideBarSpacer_1.setBackground(this.dark_blue_1);
 		FlowLayout fl_sideBarSpacer_1 = (FlowLayout) sideBarSpacer_1.getLayout();
 		fl_sideBarSpacer_1.setVgap(10);
 		sideBar.add(sideBarSpacer_1);
+		
+		JPanel ButtonPanelAdd = new JPanel();
+		ButtonPanelAdd.setMaximumSize(new Dimension(32767, 60));
+		ButtonPanelAdd.setBackground(new Color(0, 0, 102));
+		sideBar.add(ButtonPanelAdd);
+		ButtonPanelAdd.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel addLabel = new JLabel("Add");
+		addLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		addLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		addLabel.setForeground(Color.WHITE);
+		addLabel.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 12));
+		addLabel.setAlignmentX(0.5f);
+		ButtonPanelAdd.add(addLabel);
+		
+		JPanel emptySpace_2_1 = new JPanel();
+		emptySpace_2_1.setMaximumSize(new Dimension(20, 60));
+		emptySpace_2_1.setBackground(dark_blue_1);
+		sideBar.add(emptySpace_2_1);
 		
 		JPanel buttonPanelAgreements = new JPanel();
 		buttonPanelAgreements.setMaximumSize(new Dimension(32767, 60));
 		
 		buttonPanelAgreements.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		buttonPanelAgreements.setBackground(this.dark_blue);
+		buttonPanelAgreements.setBackground(this.dark_blue_1);
 		sideBar.add(buttonPanelAgreements);
 		buttonPanelAgreements.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
@@ -156,14 +176,14 @@ public class NolaxMainFrame extends JFrame {
 		
 		JPanel emptySpace = new JPanel();
 		emptySpace.setMaximumSize(new Dimension(20, 60));
-		emptySpace.setBackground(dark_blue);
+		emptySpace.setBackground(dark_blue_1);
 		sideBar.add(emptySpace);
 		
 		JPanel buttonPanelClients = new JPanel();
 		buttonPanelClients.setMaximumSize(new Dimension(32767, 60));
 		buttonPanelClients.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		buttonPanelClients.setMinimumSize(new Dimension(40, 40));
-		buttonPanelClients.setBackground(this.dark_blue);
+		buttonPanelClients.setBackground(this.dark_blue_1);
 		sideBar.add(buttonPanelClients);
 		buttonPanelClients.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
@@ -176,13 +196,13 @@ public class NolaxMainFrame extends JFrame {
 		
 		JPanel emptySpace_1 = new JPanel();
 		emptySpace_1.setMaximumSize(new Dimension(20, 60));
-		emptySpace_1.setBackground(dark_blue);
+		emptySpace_1.setBackground(dark_blue_1);
 		sideBar.add(emptySpace_1);
 		
 		JPanel buttonPanelItems = new JPanel();
 		buttonPanelItems.setMaximumSize(new Dimension(32767, 60));
 		buttonPanelItems.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		buttonPanelItems.setBackground(this.dark_blue);
+		buttonPanelItems.setBackground(this.dark_blue_1);
 		sideBar.add(buttonPanelItems);
 		buttonPanelItems.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
@@ -195,11 +215,11 @@ public class NolaxMainFrame extends JFrame {
 		
 		JPanel emptySpace_2 = new JPanel();
 		emptySpace_2.setMaximumSize(new Dimension(20, 60));
-		emptySpace_2.setBackground(dark_blue);
+		emptySpace_2.setBackground(dark_blue_1);
 		sideBar.add(emptySpace_2);
 		
 		JPanel spaceReserver = new JPanel();
-		spaceReserver.setBackground(this.dark_blue);
+		spaceReserver.setBackground(this.dark_blue_1);
 		FlowLayout fl_spaceReserver = (FlowLayout) spaceReserver.getLayout();
 		fl_spaceReserver.setVgap(200);
 		fl_spaceReserver.setHgap(65);
@@ -290,14 +310,51 @@ public class NolaxMainFrame extends JFrame {
 			}
 		});
 		
-		buttonPanelClients.addMouseListener(new MouseAdapter() {
+		ButtonPanelAdd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				buttonPanelClients.setBackground(enteredZoneColor);
+				ButtonPanelAdd.setBackground(dark_blue);
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
+				ButtonPanelAdd.setBackground(dark_blue_1);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				switch (listTitle.getText()) {
+				
+				case "Clients": 
+					ClientMoreInfoCard clientInfoCard = new ClientMoreInfoCard(new Client(), listContainer, clientsManager);
+					clientInfoCard.disableDeleteButton();
+					clientInfoCard.setToSave();
+					break;
+			
+				case "Agreements": 						
+					//listFiller.populateListPanel(agreementsManager, searchTextField.getText());
+					break;
+					
+				case "Items": 
+					ItemMoreInfoCard itemInfoCard = new ItemMoreInfoCard(new PawnedItem(), listContainer, itemsManager);
+					itemInfoCard.disableDeleteButton();
+					itemInfoCard.disableIDTextField();
+					itemInfoCard.setToSave();
+					break;
+				
+				default:
+					break;
+			}
+				
+			}
+		});
+		
+		buttonPanelClients.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
 				buttonPanelClients.setBackground(dark_blue);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				buttonPanelClients.setBackground(dark_blue_1);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -314,11 +371,11 @@ public class NolaxMainFrame extends JFrame {
 		buttonPanelAgreements.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				buttonPanelAgreements.setBackground(enteredZoneColor);
+				buttonPanelAgreements.setBackground(dark_blue);
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				buttonPanelAgreements.setBackground(dark_blue);
+				buttonPanelAgreements.setBackground(dark_blue_1);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -334,11 +391,11 @@ public class NolaxMainFrame extends JFrame {
 		buttonPanelItems.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				buttonPanelItems.setBackground(enteredZoneColor);
+				buttonPanelItems.setBackground(dark_blue);
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				buttonPanelItems.setBackground(dark_blue);
+				buttonPanelItems.setBackground(dark_blue_1);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {

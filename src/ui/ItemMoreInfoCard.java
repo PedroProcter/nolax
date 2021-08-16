@@ -24,14 +24,26 @@ public class ItemMoreInfoCard {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	private JTextArea textArea;
 	
 	private ListPanelLoader listReloader = new ListPanelLoader();
+	
+	private PawnedItem item;
+	private JPanel targetContainer;
+	private ItemsListManager targetManager;
+	
+	private JButton btnNewButton_1;
+	private JButton btnNewButton;
 
 	/**
 	 * Create the frame.
 	 */
 	public ItemMoreInfoCard(PawnedItem item, JPanel targetContainer, ItemsListManager targetManager) {
 		listReloader.setTargetContainer(targetContainer);
+		
+		this.item = item;
+		this.targetContainer = targetContainer;
+		this.targetManager = targetManager;
 		
 		JFrame frame = new JFrame("Item");
 		frame.setType(Type.POPUP);
@@ -118,13 +130,13 @@ public class ItemMoreInfoCard {
 		panel_4.setBackground(Color.WHITE);
 		panel_1_3.add(panel_4);
 		
-		JTextArea textArea = new JTextArea(item.getItemDescription());
+		textArea = new JTextArea(item.getItemDescription());
 		panel_4.add(textArea);
 		
 		JPanel panel_7 = new JPanel();
 		frame.getContentPane().add(panel_7);
 		
-		JButton btnNewButton = new JButton("save");
+		btnNewButton = new JButton("save");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -141,7 +153,7 @@ public class ItemMoreInfoCard {
 		});
 		panel_7.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("delete");
+		btnNewButton_1 = new JButton("delete");
 		btnNewButton_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -158,6 +170,33 @@ public class ItemMoreInfoCard {
 		
 		frame.setVisible(true);
 		
+	}
+	
+	public void disableDeleteButton() {
+		btnNewButton_1.setEnabled(false);
+	}
+	
+	public void disableIDTextField() {
+		this.textField.setEnabled(false);
+	}
+	
+	public void setToSave() {
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				item.setItemID(textField.getText());
+				item.setItemName(textField_1.getText());
+				item.setItemEstimateValue(Double.valueOf(textField_2.getText()));
+				item.setItemDescription(textArea.getText());
+				
+				targetContainer.removeAll();
+				targetContainer.revalidate();
+				listReloader.populateListPanel(targetManager, "");
+				targetContainer.repaint();
+				
+				targetManager.addItem(item);
+			}
+		});
 	}
 
 }

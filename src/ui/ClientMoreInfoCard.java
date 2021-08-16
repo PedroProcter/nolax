@@ -28,11 +28,22 @@ public class ClientMoreInfoCard {
 	private JTextField textField_5;
 	
 	private ListPanelLoader listReloader = new ListPanelLoader();
+	
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
+	
+	private ClientsListManager targetManager;
+	private Client client;
+	private JPanel targetContainer;
 
 	/**
 	 * Create the frame.
 	 */
 	public ClientMoreInfoCard(Client client, JPanel targetContainer, ClientsListManager targetManager) {
+		this.client = client;
+		this.targetContainer = targetContainer;
+		this.targetManager = targetManager;
+		
 		listReloader.setTargetContainer(targetContainer);
 		
 		JFrame frame = new JFrame("Client");
@@ -169,7 +180,7 @@ public class ClientMoreInfoCard {
 		JPanel panel_7 = new JPanel();
 		frame.getContentPane().add(panel_7);
 		
-		JButton btnNewButton = new JButton("save");
+		btnNewButton = new JButton("save");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -188,7 +199,7 @@ public class ClientMoreInfoCard {
 		});
 		panel_7.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("delete");
+		btnNewButton_1 = new JButton("delete");
 		btnNewButton_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -206,6 +217,31 @@ public class ClientMoreInfoCard {
 		
 		frame.setVisible(true);
 		
+	}
+	
+	public void disableDeleteButton() {
+		btnNewButton_1.setEnabled(false);
+	}
+	
+	public void setToSave() {
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				client.setClientID(textField.getText());
+				client.setClientName(textField_1.getText());
+				client.setClientLastname(textField_2.getText());
+				client.setClientTelephoneNumber(textField_3.getText());
+				client.setClientEmail(textField_4.getText());
+				client.setClientAddress(textField_5.getText());
+				
+				targetContainer.removeAll();
+				targetContainer.revalidate();
+				listReloader.populateListPanel(targetManager, "");
+				targetContainer.repaint();
+				
+				targetManager.addClient(client);
+			}
+		});
 	}
 
 }
