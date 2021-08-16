@@ -6,14 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import dataclasses.Client;
-import dataclasses.PawnAgreement;
 import dataclasses.PawnedItem;
 
-public class ItemsListManage implements CanGetDBConnection {
-    /*
-    This class provides method to manage an ArrayList of items
-    
+public class ItemsListManager implements CanGetDBConnection {
+    /**
+    *This class provides method to manage an ArrayList of items
     */
     
     private Connection dbConnecion;
@@ -27,11 +24,11 @@ public class ItemsListManage implements CanGetDBConnection {
         
     }
     
-    /*
-    Get rows of the table items
+    /**
+    *Get rows of the table items
     */
     public void loadAllItems(){
-        String query = "SELECT * FORM items";
+        String query = "SELECT * FROM items";
         
         try(Statement statement = this.dbConnecion.createStatement()){
             ResultSet resultSet = statement.executeQuery(query);
@@ -55,7 +52,7 @@ public class ItemsListManage implements CanGetDBConnection {
     
        /**
      * 
-     * Syncronize all the change that were make in local with the table Items
+     * Synchronize all the change that were make in local with the table Items
      * 
      */
 
@@ -95,13 +92,15 @@ public class ItemsListManage implements CanGetDBConnection {
     /**
      * Returns the index of a item
      * @param ItemId
-     * @return The index in the Arralist of the item
+     * @return The index in the Arraylist of the item
      */
 
      private int findItemIndex(String itemID){
          int indexOfTheItem = -1;
 
-         for(PawnedItem item:(PawnedItem[]) this.items.toArray()){
+         for(int index = 0; index < items.size(); index++){
+        	 PawnedItem item = items.get(index);
+        	 
              if(item.getItemID().equals(itemID)){
                  indexOfTheItem= this.items.indexOf(item);
              }
@@ -173,6 +172,5 @@ public class ItemsListManage implements CanGetDBConnection {
         return(items);
 
      }
-
 
 }
