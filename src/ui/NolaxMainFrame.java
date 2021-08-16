@@ -251,7 +251,7 @@ public class NolaxMainFrame extends JFrame {
 		GridLayout listContainerLayout = new GridLayout(25, 0, 0, 0);
 		listContainer.setLayout(listContainerLayout);
 		
-		listFiller.populateListPanel(agreementsManager.pawnAgreements, 0.1f);
+		listFiller.populateListPanel(agreementsManager, "");
 		
 		JScrollPane scrollPane = new JScrollPane(listContainer);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -275,7 +275,7 @@ public class NolaxMainFrame extends JFrame {
 				listContainer.removeAll();
 				listContainer.validate();
 				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
-				listFiller.populateListPanel(clientsManager.getAllClients(), 0);
+				listFiller.populateListPanel(clientsManager, "");
 				
 			}
 		});
@@ -295,7 +295,7 @@ public class NolaxMainFrame extends JFrame {
 				listContainer.removeAll();
 				listContainer.validate();
 				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
-				listFiller.populateListPanel(agreementsManager.getAllAgreements(), 0.1f);
+				listFiller.populateListPanel(agreementsManager, "");
 			}
 		});
 		
@@ -314,7 +314,7 @@ public class NolaxMainFrame extends JFrame {
 				listContainer.removeAll();
 				listContainer.validate();
 				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
-				listFiller.populateListPanel(itemsManager.getAllItems());
+				listFiller.populateListPanel(itemsManager, "");
 				
 			}
 		});
