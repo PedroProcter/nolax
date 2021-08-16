@@ -8,10 +8,9 @@ import java.util.ArrayList;
 
 import dataclasses.PawnedItem;
 
-public class ItemsListManage implements CanGetDBConnection {
-    /*
-    This class provides method to manage an ArrayList of items
-    
+public class ItemsListManager implements CanGetDBConnection {
+    /**
+    *This class provides method to manage an ArrayList of items
     */
     
     private Connection dbConnecion;
@@ -24,8 +23,8 @@ public class ItemsListManage implements CanGetDBConnection {
         
     }
     
-    /*
-    Get rows of the table items
+    /**
+    *Get rows of the table items
     */
     public void loadAllItems(){
         String query = "SELECT * FROM items";
@@ -52,7 +51,7 @@ public class ItemsListManage implements CanGetDBConnection {
     
        /**
      * 
-     * Syncronize all the change that were make in local with the table Items
+     * Synchronize all the change that were make in local with the table Items
      * 
      */
 
@@ -70,7 +69,7 @@ public class ItemsListManage implements CanGetDBConnection {
     /**
      * Returns the index of a item
      * @param ItemId
-     * @return The index in the Arralist of the item
+     * @return The index in the Arraylist of the item
      */
 
      private int findItemIndex(String itemID){
