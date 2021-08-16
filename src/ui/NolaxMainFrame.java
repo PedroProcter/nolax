@@ -41,7 +41,7 @@ public class NolaxMainFrame extends JFrame {
 	
 	private AgreementsListManager agreementsManager = new AgreementsListManager();
 	private ClientsListManager clientsManager = new ClientsListManager();
-	private ItemsListManage itemsManager = new ItemsListManage();
+	private ItemsListManager itemsManager = new ItemsListManager();
 	
 
 	/**
