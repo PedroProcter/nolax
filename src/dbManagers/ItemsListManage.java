@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import dataclasses.Client;
-import dataclasses.PawnAgreement;
 import dataclasses.PawnedItem;
 
 public class ItemsListManage implements CanGetDBConnection {
