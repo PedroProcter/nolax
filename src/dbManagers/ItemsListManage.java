@@ -28,7 +28,7 @@ public class ItemsListManage implements CanGetDBConnection {
     Get rows of the table items
     */
     public void loadAllItems(){
-        String query = "SELECT * FORM items";
+        String query = "SELECT * FROM items";
         
         try(Statement statement = this.dbConnecion.createStatement()){
             ResultSet resultSet = statement.executeQuery(query);
@@ -135,6 +135,5 @@ public class ItemsListManage implements CanGetDBConnection {
         return(items);
 
      }
-
 
 }

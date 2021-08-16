@@ -1,0 +1,6 @@
+/*MySQL Credentials*/
+<Host>127.0.0.1</Host>
+<HostPort>3306</HostPort>
+<DBName>pawnstore</DBName>
+<Username>osvaldo_procter</Username>
+<Password>El valor mas importante es la responsabilidad</Password>
