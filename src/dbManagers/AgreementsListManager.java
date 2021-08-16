@@ -74,7 +74,8 @@ public class AgreementsListManager implements CanGetDBConnection {
             e.printStackTrace();
 
         }
-
+        
+        changeHistory = "";
     }
 
     /**
