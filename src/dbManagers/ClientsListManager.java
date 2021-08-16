@@ -72,7 +72,9 @@ public class ClientsListManager implements CanGetDBConnection {
     private int findClientIndex(String clientId) {
         int indexOfTheClient = -1;
 
-        for (Client client: (Client[]) this.clients.toArray()) {
+        for (int index = 0; index < clients.size(); index++){
+       	 	Client client = clients.get(index);
+       	 	
             if (client.getClientID().equals(clientId)) {
                 indexOfTheClient = this.clients.indexOf(client);
             }
