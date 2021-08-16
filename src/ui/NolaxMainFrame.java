@@ -266,8 +266,6 @@ public class NolaxMainFrame extends JFrame {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				listContainer.removeAll();
-				listContainer.revalidate();
-				listContainer.repaint();
 				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
 				
 				switch (listTitle.getText()) {
@@ -287,6 +285,8 @@ public class NolaxMainFrame extends JFrame {
 					default:
 						break;
 				}
+				listContainer.revalidate();
+				listContainer.repaint();
 			}
 		});
 		
