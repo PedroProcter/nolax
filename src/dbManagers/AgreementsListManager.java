@@ -14,7 +14,8 @@ public class AgreementsListManager implements CanGetDBConnection {
      */
 
     private Connection dbConnection;
-    private ArrayList<PawnAgreement> pawnAgreements = new ArrayList<PawnAgreement>();
+    private ArrayList<PawnAgreement> pawnAgreements;
+    private String changeHistory = "";
 
     @Override
     public void setDBConnection(Connection dbConnection) {
@@ -57,14 +58,39 @@ public class AgreementsListManager implements CanGetDBConnection {
      * Synchronize all the change that were make in local with the table clients
      * 
      */
-    public void dumpAllAgreements() {}
+    public void dumpAllClients() {
+
+        try(Statement statement = this.dbConnection.createStatement()){
+
+            statement.executeQuery(changeHistory);     
+
+        }catch(SQLException e){
+            e.printStackTrace();
+
+        }
+
+    }
 
     /**
      * Add a PawnAgreement object to the ArrayList
      * @param agreement
      */
     public void addAgreement(PawnAgreement agreement) {
+
+
         this.pawnAgreements.add(agreement);
+
+        String sqlQuery = "INSET INTO TABLE items " +
+        "(client_id,item_id,start_date,end_date,conditions,description) " + 
+        "VALUES ('"+
+        agreement.getClientID()+"', "+
+        agreement.getItemID()+", "+
+        agreement.getAgreementStartingDate()+"', "+
+        "'"+agreement.getAgreementEndingDate()+"', "+
+        "'"+agreement.getAgreementConditions()+"', "+
+        "'"+agreement.getAgreementDescription()+"'\n";
+
+        changeHistory += sqlQuery;
     }
 
     /**
@@ -91,7 +117,11 @@ public class AgreementsListManager implements CanGetDBConnection {
      * @param agreementID
      */
     public void deleteAgreement(String agreementID) {
+        
+        String sqlQuery = 
+        "DELETE FROM agreements WHERE agreement_id = "+agreementID+"\n";
 
+        changeHistory += sqlQuery;
 
         this.pawnAgreements.remove(findItemIndex(agreementID));
     }
@@ -113,12 +143,25 @@ public class AgreementsListManager implements CanGetDBConnection {
     public void changeAgreement(String oldId, PawnAgreement newAgreement){
         
         PawnAgreement oldAgreement = pawnAgreements.get(findItemIndex(oldId));
-        oldAgreement.setClientID(newAgreement.getClientID());;
+
+        String sqlQuery = "UPDATE agreements"+
+        "SET client_id = '"+ newAgreement.getClientID()+"',"+
+        "item_id = "+ newAgreement.getClientID()+","+
+        "start_date = '"+ newAgreement.getAgreementStartingDate()+"',"+
+        "end_date = '"+ newAgreement.getAgreementEndingDate()+"',"+
+        "conditions = '"+ newAgreement.getAgreementConditions()+"',"+
+        "description = '"+ newAgreement.getAgreementDescription()+
+        "' WHERE agreement_id = "+ newAgreement.getAgreementID()+"\n";
+
+        changeHistory += sqlQuery;
+
+        oldAgreement.setClientID(newAgreement.getClientID());
         oldAgreement.setItemID(newAgreement.getItemID());
         oldAgreement.setAgreementStartingDate(newAgreement.getAgreementStartingDate());
         oldAgreement.setAgreementEndingDate(newAgreement.getAgreementEndingDate());
         oldAgreement.setAgreementConditions(newAgreement.getAgreementConditions());
         oldAgreement.setAgreementDescription(newAgreement.getAgreementDescription());
+
      }
     
     /**

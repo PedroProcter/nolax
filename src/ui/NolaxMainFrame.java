@@ -405,6 +405,7 @@ public class NolaxMainFrame extends JFrame {
 				listContainer.repaint();
 				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
 				listFiller.populateListPanel(itemsManager, "");
+				itemsManager.dumpAllItems();
 				
 			}
 		});

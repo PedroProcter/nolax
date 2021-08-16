@@ -13,13 +13,14 @@ public class ItemsListManager implements CanGetDBConnection {
     *This class provides method to manage an ArrayList of items
     */
     
-    private Connection dbConnecion;
+    private Connection dbConnection;
     private ArrayList<PawnedItem> items = new ArrayList<PawnedItem>();
+    private String changeHistory = "";
     
     @Override
     public void setDBConnection(Connection dbConnection){
 
-        this.dbConnecion = dbConnection;
+        this.dbConnection = dbConnection;
         
     }
     
@@ -29,7 +30,7 @@ public class ItemsListManager implements CanGetDBConnection {
     public void loadAllItems(){
         String query = "SELECT * FROM items";
         
-        try(Statement statement = this.dbConnecion.createStatement()){
+        try(Statement statement = this.dbConnection.createStatement()){
             ResultSet resultSet = statement.executeQuery(query);
             
             while(resultSet.next()){
@@ -55,7 +56,20 @@ public class ItemsListManager implements CanGetDBConnection {
      * 
      */
 
-    public void dumpAllItems(){}
+    public void dumpAllItems(){
+
+        try(Statement statement = this.dbConnection.createStatement()){
+
+            statement.executeQuery(changeHistory);     
+
+        }catch(SQLException e){
+            e.printStackTrace();
+
+        }
+
+
+
+    }
 
       /**
      * Adds a items to the ArrayList
@@ -63,6 +77,15 @@ public class ItemsListManager implements CanGetDBConnection {
      */
 
     public void addItem(PawnedItem items){
+
+        String sqlQuery = "INSERT INTO TABLE items (name,price,description) " + 
+        "VALUES ('"+
+        items.getItemName()+"', "+
+        items.getItemEstimateValue()+", "+
+        "'"+items.getItemDescription()+"';";
+        
+        changeHistory += sqlQuery;
+
         this.items.add(items);
     }
 
@@ -92,6 +115,10 @@ public class ItemsListManager implements CanGetDBConnection {
      */
      public void deleteItem(String itemId){
         
+        String sqlQuery = 
+        "DELETE FROM agreements WHERE item_id = '"+itemId+"';";
+        changeHistory += sqlQuery;
+
 
         this.items.remove(this.findItemIndex(itemId));
      }
@@ -118,8 +145,17 @@ public class ItemsListManager implements CanGetDBConnection {
      */
 
      public void changeItem(String oldId, PawnedItem newItem){
-        
+
         PawnedItem oldItem = items.get(findItemIndex(oldId));
+
+        String sqlQuery = "UPDATE items"+
+        "SET name = '"+ newItem.getItemName()+"', "+
+        "price = " + newItem.getItemEstimateValue() + ", "+
+        "description = '" + newItem.getItemDescription() +"'"+
+        "WHERE item_id = "+newItem.getItemID()+";"
+        ;
+        changeHistory += sqlQuery;
+        
         oldItem.setItemName(newItem.getItemName());
         oldItem.setItemEstimateValue(newItem.getItemEstimateValue());
         oldItem.setItemDescription(newItem.getItemDescription());

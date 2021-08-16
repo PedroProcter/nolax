@@ -15,6 +15,8 @@ public class ClientsListManager implements CanGetDBConnection {
 
     private Connection dbConnection;
     private ArrayList<Client> clients = new ArrayList<Client>();
+    private String changeHistory = "";
+    //private ArrayList<String> queryList = new ArrayList<String>();
 
     @Override
     public void setDBConnection(Connection dbConnection) {
@@ -54,13 +56,37 @@ public class ClientsListManager implements CanGetDBConnection {
      * Synchronize all the change that were make in local with the table clients
      * 
      */
-    public void dumpAllClients() {}
+    public void dumpAllClients() {
+
+        try(Statement statement = this.dbConnection.createStatement()){
+
+            statement.executeQuery(changeHistory);     
+
+        }catch(SQLException e){
+            e.printStackTrace();
+
+        }
+
+    }
     
     /**
      * Adds a client to the ArraList
      * @param client
      */
     public void addClient(Client client) {
+
+        String sqlQuery = "INSET INTO TABLE items (name,last_name,phone,email,address) " + 
+        "VALUES ('"+
+        client.getClientName()+"', "+
+        "'"+client.getClientLastname()+"', "+
+        "'"+client.getClientTelephoneNumber()+"', "+
+        "'"+client.getClientEmail()+"', " +
+        "'"+client.getClientAddress()+"'\n";
+
+        //queryList.add(sqlQuery);
+        
+        changeHistory += sqlQuery;
+
         this.clients.add(client);
     }
 
@@ -88,7 +114,16 @@ public class ClientsListManager implements CanGetDBConnection {
      * @param clientId
      */
     public void deleteClient(String clientId) {
+
         this.clients.remove(this.findClientIndex(clientId));
+
+        String sqlQuery = 
+        "DELETE FROM agreements WHERE client_id = '"+clientId+"'\n";
+
+        //queryList.add(sqlQuery);
+
+        changeHistory += sqlQuery;
+        
     }
 
     /**
@@ -113,6 +148,18 @@ public class ClientsListManager implements CanGetDBConnection {
         
         Client oldClient = clients.get(findClientIndex(oldId));
 
+        String sqlQuery = "UPDATE clients" +
+        "SET name = '"+ newClient.getClientName()+"', "+
+        "last_name = '"+ newClient.getClientLastname()+"', "+
+        "phone = '"+ newClient.getClientTelephoneNumber()+"', "+
+        "email = '"+ newClient.getClientEmail()+"', "+
+        "address = '"+ newClient.getClientAddress()+"', "+
+        "WHERE client_id = '"+ newClient.getClientID()+"'\n";
+
+        //queryList.add(sqlQuery);
+
+        changeHistory += sqlQuery;
+ 
         oldClient.setClientName(newClient.getClientName());
         oldClient.setClientLastname(newClient.getClientLastname());
         oldClient.setClientTelephoneNumber(newClient.getClientTelephoneNumber());
