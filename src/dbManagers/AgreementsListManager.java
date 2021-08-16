@@ -103,5 +103,21 @@ public class AgreementsListManager implements CanGetDBConnection {
     public PawnAgreement getAgreement(String agreementID) {
         return this.pawnAgreements.get(this.findItemIndex(agreementID));
     }
+
+     /**
+     * @param oldId,newAgreement
+     * @return change the values of our Agreements
+     */
+
+    public void changeAgreement(String oldId, PawnAgreement newAgreement){
+        
+        PawnAgreement oldAgreement = pawnAgreements.get(findItemIndex(oldId));
+        oldAgreement.setClientID(newAgreement.getClientID());;
+        oldAgreement.setItemID(newAgreement.getItemID());
+        oldAgreement.setAgreementStartingDate(newAgreement.getAgreementStartingDate());
+        oldAgreement.setAgreementEndingDate(newAgreement.getAgreementEndingDate());
+        oldAgreement.setAgreementConditions(newAgreement.getAgreementConditions());
+        oldAgreement.setAgreementDescription(newAgreement.getAgreementDescription());
+     }
     
 }

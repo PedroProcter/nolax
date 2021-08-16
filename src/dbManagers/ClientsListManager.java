@@ -102,43 +102,14 @@ public class ClientsListManager implements CanGetDBConnection {
         return clientFound;
     }
 
-
-         /**
-     * Returns a Client index
-     * @param oldName
-     * @return The Client index found. If there if no Client found, then return -1
-     */
-
-    public int searchClient(String oldName){
-
-        int lenghtList =  clients.size();
-        String clientName;
-        int clientIndex = -1;
-
-        for(int index=0;index<lenghtList;index++){
-
-            clientName = clients.get(index).getClientName();
-
-            if(clientName.equals(oldName)){
-                clientIndex = index;
-
-            }else{
-                System.out.println("the client doesn't exist");
-                return clientIndex;
-            }
-        }
-        return clientIndex;
-
-     }
-
      /**
      * @param currentname,newName,
      * @return change the values of our client
      */
 
-     public void changeItem(String oldName, Client newClient){
+     public void changeItem(String oldId, Client newClient){
         
-        Client oldClient = clients.get(searchClient(oldName));
+        Client oldClient = clients.get(findClientIndex(oldId));
 
         oldClient.setClientName(newClient.getClientName());
         oldClient.setClientLastname(newClient.getClientLastname());
