@@ -24,13 +24,16 @@ public class ItemMoreInfoCard {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	
+	private ListPanelLoader listReloader = new ListPanelLoader();
 
 	/**
 	 * Create the frame.
 	 */
 	public ItemMoreInfoCard(PawnedItem item, JPanel targetContainer, ItemsListManager targetManager) {
+		listReloader.setTargetContainer(targetContainer);
+		
 		JFrame frame = new JFrame("Item");
-		//frame.setUndecorated(true);
 		frame.setType(Type.POPUP);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setBounds(100, 100, 450, 350);
@@ -130,7 +133,9 @@ public class ItemMoreInfoCard {
 				item.setItemEstimateValue(Double.valueOf(textField_2.getText()));
 				item.setItemDescription(textArea.getText());
 				
+				targetContainer.removeAll();
 				targetContainer.revalidate();
+				listReloader.populateListPanel(targetManager, "");
 				targetContainer.repaint();
 			}
 		});
@@ -141,7 +146,10 @@ public class ItemMoreInfoCard {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				targetManager.deleteItem(item.getItemID());
+				
+				targetContainer.removeAll();
 				targetContainer.revalidate();
+				listReloader.populateListPanel(targetManager, "");
 				targetContainer.repaint();
 			}
 		});

@@ -26,13 +26,16 @@ public class ClientMoreInfoCard {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
+	
+	private ListPanelLoader listReloader = new ListPanelLoader();
 
 	/**
 	 * Create the frame.
 	 */
 	public ClientMoreInfoCard(Client client, JPanel targetContainer, ClientsListManager targetManager) {
+		listReloader.setTargetContainer(targetContainer);
+		
 		JFrame frame = new JFrame("Client");
-		//frame.setUndecorated(true);
 		frame.setType(Type.POPUP);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setBounds(100, 100, 450, 350);
@@ -177,7 +180,9 @@ public class ClientMoreInfoCard {
 				client.setClientEmail(textField_4.getText());
 				client.setClientAddress(textField_5.getText());
 				
+				targetContainer.removeAll();
 				targetContainer.revalidate();
+				listReloader.populateListPanel(targetManager, "");
 				targetContainer.repaint();
 			}
 		});
@@ -188,7 +193,11 @@ public class ClientMoreInfoCard {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				targetManager.deleteClient(client.getClientID());
+
+
+				targetContainer.removeAll();
 				targetContainer.revalidate();
+				listReloader.populateListPanel(targetManager, "");
 				targetContainer.repaint();
 			}
 		});
