@@ -14,7 +14,7 @@ public class AgreementsListManager implements CanGetDBConnection {
      */
 
     private Connection dbConnection;
-    public ArrayList<PawnAgreement> pawnAgreements = new ArrayList<PawnAgreement>();
+    private ArrayList<PawnAgreement> pawnAgreements = new ArrayList<PawnAgreement>();
 
     @Override
     public void setDBConnection(Connection dbConnection) {
@@ -75,8 +75,10 @@ public class AgreementsListManager implements CanGetDBConnection {
     private int findItemIndex(String agreementID){
         int indexOfTheAgreement = -1;
 
-        for(PawnAgreement agreement:(PawnAgreement[]) this.pawnAgreements.toArray()){
-            if(agreement.getItemID().equals(agreementID)){
+        for(int index = 0; index < pawnAgreements.size(); index++){
+        	PawnAgreement agreement = pawnAgreements.get(index);
+        	
+            if(agreement.getAgreementID().equals(agreementID)){
                 indexOfTheAgreement = this.pawnAgreements.indexOf(agreement);
             }
         }

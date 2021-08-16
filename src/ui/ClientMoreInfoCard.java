@@ -11,6 +11,7 @@ import java.awt.Component;
 import javax.swing.border.LineBorder;
 
 import dataclasses.Client;
+import dbManagers.ClientsListManager;
 
 import java.awt.FlowLayout;
 import java.awt.Window.Type;
@@ -25,13 +26,16 @@ public class ClientMoreInfoCard {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
+	
+	private ListPanelLoader listReloader = new ListPanelLoader();
 
 	/**
 	 * Create the frame.
 	 */
-	public ClientMoreInfoCard(Client client) {
+	public ClientMoreInfoCard(Client client, JPanel targetContainer, ClientsListManager targetManager) {
+		listReloader.setTargetContainer(targetContainer);
+		
 		JFrame frame = new JFrame("Client");
-		//frame.setUndecorated(true);
 		frame.setType(Type.POPUP);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setBounds(100, 100, 450, 350);
@@ -175,11 +179,28 @@ public class ClientMoreInfoCard {
 				client.setClientTelephoneNumber(textField_3.getText());
 				client.setClientEmail(textField_4.getText());
 				client.setClientAddress(textField_5.getText());
+				
+				targetContainer.removeAll();
+				targetContainer.revalidate();
+				listReloader.populateListPanel(targetManager, "");
+				targetContainer.repaint();
 			}
 		});
 		panel_7.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("delete");
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				targetManager.deleteClient(client.getClientID());
+
+
+				targetContainer.removeAll();
+				targetContainer.revalidate();
+				listReloader.populateListPanel(targetManager, "");
+				targetContainer.repaint();
+			}
+		});
 		panel_7.add(btnNewButton_1);
 		
 		
