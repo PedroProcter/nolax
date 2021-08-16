@@ -20,14 +20,16 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.border.LineBorder;
 
 import config_manager.ConfigParser;
 import config_manager.ConfigurationFileManager;
-
 import dbManagers.*;
 
 import javax.swing.ScrollPaneConstants;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 @SuppressWarnings("serial")
 public class NolaxMainFrame extends JFrame {
@@ -251,7 +253,7 @@ public class NolaxMainFrame extends JFrame {
 		GridLayout listContainerLayout = new GridLayout(25, 0, 0, 0);
 		listContainer.setLayout(listContainerLayout);
 		
-		listFiller.populateListPanel(agreementsManager.pawnAgreements, 0.1f);
+		listFiller.populateListPanel(agreementsManager, "");
 		
 		JScrollPane scrollPane = new JScrollPane(listContainer);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -259,6 +261,34 @@ public class NolaxMainFrame extends JFrame {
 		scrollPane.setViewportBorder(null);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		centerPanel.add(scrollPane, BorderLayout.CENTER);
+		
+		searchTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				listContainer.removeAll();
+				listContainer.revalidate();
+				listContainer.repaint();
+				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
+				
+				switch (listTitle.getText()) {
+				
+					case "Clients": 
+						listFiller.populateListPanel(clientsManager, searchTextField.getText());
+						break;
+				
+					case "Agreements": 						
+						listFiller.populateListPanel(agreementsManager, searchTextField.getText());
+						break;
+						
+					case "Items": 
+						listFiller.populateListPanel(itemsManager, searchTextField.getText());
+						break;
+					
+					default:
+						break;
+				}
+			}
+		});
 		
 		buttonPanelClients.addMouseListener(new MouseAdapter() {
 			@Override
@@ -273,9 +303,10 @@ public class NolaxMainFrame extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				listTitle.setText("Clients");
 				listContainer.removeAll();
-				listContainer.validate();
+				listContainer.revalidate();
+				listContainer.repaint();
 				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
-				listFiller.populateListPanel(clientsManager.getAllClients(), 0);
+				listFiller.populateListPanel(clientsManager, "");
 				
 			}
 		});
@@ -293,9 +324,10 @@ public class NolaxMainFrame extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				listTitle.setText("Agreements");
 				listContainer.removeAll();
-				listContainer.validate();
+				listContainer.revalidate();
+				listContainer.repaint();
 				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
-				listFiller.populateListPanel(agreementsManager.getAllAgreements(), 0.1f);
+				listFiller.populateListPanel(agreementsManager, "");
 			}
 		});
 		
@@ -312,9 +344,10 @@ public class NolaxMainFrame extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				listTitle.setText("Items");
 				listContainer.removeAll();
-				listContainer.validate();
+				listContainer.revalidate();
+				listContainer.repaint();
 				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
-				listFiller.populateListPanel(itemsManager.getAllItems());
+				listFiller.populateListPanel(itemsManager, "");
 				
 			}
 		});
