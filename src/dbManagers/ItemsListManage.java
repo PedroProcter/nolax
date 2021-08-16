@@ -18,6 +18,7 @@ public class ItemsListManage implements CanGetDBConnection {
     
     private Connection dbConnecion;
     private ArrayList<PawnedItem> items = new ArrayList<PawnedItem>();
+    private String changeHistory = "";
     
     @Override
     public void setDBConnection(Connection dbConnection){
@@ -58,7 +59,20 @@ public class ItemsListManage implements CanGetDBConnection {
      * 
      */
 
-    public void dumpAllItems(){}
+    public void dumpAllItems(){
+
+        try(Statement statement = this.dbConnection.createStatement()){
+
+            statement.executeQuery(changeHistory);     
+
+        }catch(SQLException e){
+            e.printStackTrace();
+
+        }
+
+
+
+    }
 
       /**
      * Adds a items to the ArrayList
@@ -66,6 +80,15 @@ public class ItemsListManage implements CanGetDBConnection {
      */
 
     public void addItem(PawnedItem items){
+
+        String sqlQuery = "INSET INTO TABLE items (name,price,description) " + 
+        "VALUES ('"+
+        items.getItemName()+"', "+
+        items.getItemEstimateValue()+", "+
+        "'"+items.getItemDescription()+"'\n";
+        
+        changeHistory += sqlQuery;
+
         this.items.add(items);
     }
 
@@ -93,6 +116,10 @@ public class ItemsListManage implements CanGetDBConnection {
      */
      public void deleteItem(String itemId){
         
+        String sqlQuery = 
+        "DELETE FROM agreements WHERE item_id = '"+itemId+"'\n";
+        changeHistory += sqlQuery;
+
 
         this.items.remove(this.findItemIndex(itemId));
      }
@@ -119,8 +146,17 @@ public class ItemsListManage implements CanGetDBConnection {
      */
 
      public void changeItem(String oldId, PawnedItem newItem){
-        
+
         PawnedItem oldItem = items.get(findItemIndex(oldId));
+
+        String sqlQuery = "UPDATE items"+
+        "SET name = '"+ newItem.getItemName()+"', "+
+        "price = " + newItem.getItemEstimateValue() + ", "+
+        "description = '" + newItem.getItemDescription() +"'"+
+        "WHERE item_id = "+newItem.getItemID()+"\n"
+        ;
+        changeHistory += sqlQuery;
+        
         oldItem.setItemName(newItem.getItemName());
         oldItem.setItemEstimateValue(newItem.getItemEstimateValue());
         oldItem.setItemDescription(newItem.getItemDescription());
