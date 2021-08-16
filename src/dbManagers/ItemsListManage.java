@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import dataclasses.PawnAgreement;
 import dataclasses.PawnedItem;
 
 public class ItemsListManage implements CanGetDBConnection {
@@ -99,6 +100,8 @@ public class ItemsListManage implements CanGetDBConnection {
      * @return The Item found. If there if no Item found, then return null
      */
 
+
+
      public PawnedItem getItem(String itemId){
          PawnedItem itemFound = null;
 
@@ -106,5 +109,50 @@ public class ItemsListManage implements CanGetDBConnection {
          
          return itemFound;
      }
+
+
+     /**
+     * Returns a Item index
+     * @param oldName
+     * @return The Item index found. If there if no Item found, then return -1
+     */
+
+     public int searchItem(String oldName){
+
+        int lenghtList =  items.size();
+        String itemName;
+        int itemIndex = -1;
+
+        for(int index=0;index<lenghtList;index++){
+
+            itemName = items.get(index).getItemName();
+
+            if(itemName.equals(oldName)){
+                itemIndex = index;
+
+            }else{
+                System.out.println("the item doesn't exist");
+                return itemIndex;
+            }
+        }
+        return itemIndex;
+
+     }
+
+     /**
+     * @param currentname,newName,newPrice,newDescription
+     * @return change the values of our items
+     */
+
+     public void changeItem(String oldName, PawnedItem newItem){
+        
+        PawnedItem oldItem = items.get(searchItem(oldName));
+        oldItem.setItemName(newItem.getItemName());
+        oldItem.setItemEstimateValue(newItem.getItemEstimateValue());
+        oldItem.setItemDescription(newItem.getItemDescription());
+
+     }
+
+
 
 }
