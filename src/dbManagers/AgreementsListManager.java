@@ -57,7 +57,7 @@ public class AgreementsListManager implements CanGetDBConnection {
      * Synchronize all the change that were make in local with the table clients
      * 
      */
-    public void dumpAllClients() {}
+    public void dumpAllAgreements() {}
 
     /**
      * Add a PawnAgreement object to the ArrayList
