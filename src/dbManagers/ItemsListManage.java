@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import dataclasses.Client;
 import dataclasses.PawnAgreement;
 import dataclasses.PawnedItem;
 
@@ -91,7 +92,9 @@ public class ItemsListManage implements CanGetDBConnection {
      * @param itemtId
      */
      public void deleteItem(String itemId){
-         this.items.remove(this.findItemIndex(itemId));
+        
+
+        this.items.remove(this.findItemIndex(itemId));
      }
 
      /**
@@ -124,6 +127,16 @@ public class ItemsListManage implements CanGetDBConnection {
 
      }
 
+    /**
+     * @param 
+     * @return all the Items 
+     */
+
+     public  ArrayList<PawnedItem> getAllItems(){
+       
+        return(items);
+
+     }
 
 
 }

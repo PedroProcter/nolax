@@ -120,5 +120,17 @@ public class ClientsListManager implements CanGetDBConnection {
 
      }
 
+    /**
+     * @param 
+     * @return all the clients 
+     */
+
+    public  ArrayList<Client> getAllClients(){
+       
+        return(clients);
+
+     }
+
+
 }
 

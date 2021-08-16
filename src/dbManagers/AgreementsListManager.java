@@ -92,6 +92,8 @@ public class AgreementsListManager implements CanGetDBConnection {
      * @param agreementID
      */
     public void deleteAgreement(String agreementID) {
+
+
         this.pawnAgreements.remove(findItemIndex(agreementID));
     }
 
@@ -120,4 +122,16 @@ public class AgreementsListManager implements CanGetDBConnection {
         oldAgreement.setAgreementDescription(newAgreement.getAgreementDescription());
      }
     
+    /**
+     * @param 
+     * @return all the Agreements 
+     */
+
+    public  ArrayList<PawnAgreement> getAllAgreements(){
+       
+        return(pawnAgreements);
+
+     }
+
+
 }
