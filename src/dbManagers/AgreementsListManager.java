@@ -14,7 +14,7 @@ public class AgreementsListManager implements CanGetDBConnection {
      */
 
     private Connection dbConnection;
-    private ArrayList<PawnAgreement> pawnAgreements;
+    public ArrayList<PawnAgreement> pawnAgreements = new ArrayList<PawnAgreement>();
 
     @Override
     public void setDBConnection(Connection dbConnection) {
@@ -28,8 +28,8 @@ public class AgreementsListManager implements CanGetDBConnection {
      * Gets all the rows of the table agreements
      * 
      */
-    public void loadAllClients() {
-        String sqlQuery = "SELECT * FROM clients";
+    public void loadAllAgreements() {
+        String sqlQuery = "SELECT * FROM agreements";
 
         try (Statement statement = this.dbConnection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sqlQuery);
@@ -39,14 +39,11 @@ public class AgreementsListManager implements CanGetDBConnection {
 
                 pawnAgreement.setClientID(resultSet.getString("client_id"));
                 pawnAgreement.setItemID(resultSet.getString("item_id"));
-                pawnAgreement.setAgreementID(
-                    pawnAgreement.getClientID().substring(0, 10) + 
-                    pawnAgreement.getItemID().substring(0, 0)
-                    );
+                pawnAgreement.setAgreementID(resultSet.getString("agreement_id"));
                 pawnAgreement.setAgreementDescription(resultSet.getString("description"));
                 pawnAgreement.setAgreementConditions(resultSet.getString("conditions"));
                 pawnAgreement.setAgreementStartingDate(resultSet.getString("start_date"));
-                pawnAgreement.setAgreementEndingDate("end_date");
+                pawnAgreement.setAgreementEndingDate(resultSet.getString("end_date"));
 
                 this.pawnAgreements.add(pawnAgreement);
             }
@@ -57,7 +54,7 @@ public class AgreementsListManager implements CanGetDBConnection {
 
     /**
      * 
-     * Syncronize all the change that were make in local with the table clients
+     * Synchronize all the change that were make in local with the table clients
      * 
      */
     public void dumpAllClients() {}
@@ -71,9 +68,9 @@ public class AgreementsListManager implements CanGetDBConnection {
     }
 
     /**
-     * Find the index of an expecific PawnAgreement object in the ArrayList
+     * Find the index of an PawnAgreement object in the ArrayList
      * @param agreementID
-     * @return The index in the Arralist of the PawnAgreement
+     * @return The index in the Arraylist of the PawnAgreement
      */
     private int findItemIndex(String agreementID){
         int indexOfTheAgreement = -1;
@@ -88,7 +85,7 @@ public class AgreementsListManager implements CanGetDBConnection {
     }
 
     /**
-     * Delete a PawnAgreement object fomr the ArraList
+     * Delete a PawnAgreement object from the ArrayList
      * @param agreementID
      */
     public void deleteAgreement(String agreementID) {
@@ -103,5 +100,9 @@ public class AgreementsListManager implements CanGetDBConnection {
     public PawnAgreement getAgreement(String agreementID) {
         return this.pawnAgreements.get(this.findItemIndex(agreementID));
     }
+
+	public ArrayList<PawnAgreement> getAllAgreements() {
+		return this.pawnAgreements;
+	}
     
 }

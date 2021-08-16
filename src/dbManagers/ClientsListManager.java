@@ -51,7 +51,7 @@ public class ClientsListManager implements CanGetDBConnection {
 
     /**
      * 
-     * Syncronize all the change that were make in local with the table clients
+     * Synchronize all the change that were make in local with the table clients
      * 
      */
     public void dumpAllClients() {}
@@ -67,7 +67,7 @@ public class ClientsListManager implements CanGetDBConnection {
     /**
      * Returns the index of a client
      * @param clientId
-     * @return The index in the Arralist of the client
+     * @return The index in the Arraylist of the client
      */
     private int findClientIndex(String clientId) {
         int indexOfTheClient = -1;
@@ -101,6 +101,10 @@ public class ClientsListManager implements CanGetDBConnection {
 
         return clientFound;
     }
+
+	public ArrayList<Client> getAllClients() {
+		return this.clients;
+	}
 
 }
 

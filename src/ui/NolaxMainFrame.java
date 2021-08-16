@@ -21,6 +21,12 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.LineBorder;
+
+import config_manager.ConfigParser;
+import config_manager.ConfigurationFileManager;
+
+import dbManagers.*;
+
 import javax.swing.ScrollPaneConstants;
 
 @SuppressWarnings("serial")
@@ -33,6 +39,10 @@ public class NolaxMainFrame extends JFrame {
 	private Color dark_blue = new Color(0, 0, 51);
 	private Color enteredZoneColor = new Color(51, 0, 51);
 	
+	private AgreementsListManager agreementsManager = new AgreementsListManager();
+	private ClientsListManager clientsManager = new ClientsListManager();
+	private ItemsListManage itemsManager = new ItemsListManage();
+	
 
 	/**
 	 * Launch the application.
@@ -42,7 +52,7 @@ public class NolaxMainFrame extends JFrame {
 			public void run() {
 				try {
 					NolaxMainFrame frame = new NolaxMainFrame();
-					//frame.setUndecorated(true);
+					//frame.initializeManagers();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,18 +60,47 @@ public class NolaxMainFrame extends JFrame {
 			}
 		});
 	}
+	
+	/**
+	 * Initialize all the data manager
+	 */
+	public void initializeManagers() {
+		ConfigurationFileManager fileManager = new ConfigurationFileManager();
+		fileManager.loadContent();
+		
+		ConfigParser fileParser = new ConfigParser(fileManager.getFileContent());
+		
+		String host, hostPort, dbName, username, password;
+		
+		host = fileParser.getAttributeValueForName("Host");
+		hostPort = fileParser.getAttributeValueForName("HostPort");
+		dbName = fileParser.getAttributeValueForName("DBName");
+		username = fileParser.getAttributeValueForName("Username");
+		password = fileParser.getAttributeValueForName("Password");
+		
+		DBCon dbConnector = new DBCon(host, hostPort, dbName, username, password);
+		
+		dbConnector.getConection(agreementsManager);
+		dbConnector.getConection(clientsManager);
+		dbConnector.getConection(itemsManager);
+		
+		agreementsManager.loadAllAgreements();
+		clientsManager.loadAllClients();
+		itemsManager.loadAllItems();
+	}
 
 	/**
 	 * Create the frame.
 	 */
 	public NolaxMainFrame() {
+		this.initializeManagers();
+		
 		setTitle("Nolax");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 850, 600);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.menu);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		//contentPane.setBorder(new LineBorder(new Color(171, 173, 179), 1, true));
 		setContentPane(contentPane);
 		
 		JPanel sideBarContainer = new JPanel();
@@ -209,7 +248,10 @@ public class NolaxMainFrame extends JFrame {
 		listContainer.setAutoscrolls(true);
 		listContainer.setBackground(this.light_gray);
 		centerPanel.add(listContainer, BorderLayout.CENTER);
-		listContainer.setLayout(new GridLayout(25, 0, 0, 0));
+		GridLayout listContainerLayout = new GridLayout(25, 0, 0, 0);
+		listContainer.setLayout(listContainerLayout);
+		
+		listFiller.populateListPanel(agreementsManager.pawnAgreements, 0.1f);
 		
 		JScrollPane scrollPane = new JScrollPane(listContainer);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -232,6 +274,9 @@ public class NolaxMainFrame extends JFrame {
 				listTitle.setText("Clients");
 				listContainer.removeAll();
 				listContainer.validate();
+				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
+				listFiller.populateListPanel(clientsManager.getAllClients(), 0);
+				
 			}
 		});
 		
@@ -248,8 +293,9 @@ public class NolaxMainFrame extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				listTitle.setText("Agreements");
 				listContainer.removeAll();
-				listFiller.populateListPanel(null, 0.1f);
 				listContainer.validate();
+				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
+				listFiller.populateListPanel(agreementsManager.getAllAgreements(), 0.1f);
 			}
 		});
 		
@@ -267,6 +313,9 @@ public class NolaxMainFrame extends JFrame {
 				listTitle.setText("Items");
 				listContainer.removeAll();
 				listContainer.validate();
+				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
+				listFiller.populateListPanel(itemsManager.getAllItems());
+				
 			}
 		});
 	}
