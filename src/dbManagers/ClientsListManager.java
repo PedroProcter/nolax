@@ -102,9 +102,33 @@ public class ClientsListManager implements CanGetDBConnection {
         return clientFound;
     }
 
-	public ArrayList<Client> getAllClients() {
-		return this.clients;
-	}
+     /**
+     * @param currentname,newName,
+     * @return change the values of our client
+     */
 
-}
+     public void changeItem(String oldId, Client newClient){
+        
+        Client oldClient = clients.get(findClientIndex(oldId));
+
+        oldClient.setClientName(newClient.getClientName());
+        oldClient.setClientLastname(newClient.getClientLastname());
+        oldClient.setClientTelephoneNumber(newClient.getClientTelephoneNumber());
+        oldClient.setClientEmail(newClient.getClientEmail());
+        oldClient.setClientAddress(newClient.getClientAddress());
+
+
+     }
+
+    /**
+     * @param 
+     * @return all the clients 
+     */
+
+    public  ArrayList<Client> getAllClients(){
+       
+        return(clients);
+
+     }
+
 

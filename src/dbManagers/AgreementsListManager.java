@@ -89,6 +89,8 @@ public class AgreementsListManager implements CanGetDBConnection {
      * @param agreementID
      */
     public void deleteAgreement(String agreementID) {
+
+
         this.pawnAgreements.remove(findItemIndex(agreementID));
     }
 
@@ -101,8 +103,32 @@ public class AgreementsListManager implements CanGetDBConnection {
         return this.pawnAgreements.get(this.findItemIndex(agreementID));
     }
 
-	public ArrayList<PawnAgreement> getAllAgreements() {
-		return this.pawnAgreements;
-	}
+     /**
+     * @param oldId,newAgreement
+     * @return change the values of our Agreements
+     */
+
+    public void changeAgreement(String oldId, PawnAgreement newAgreement){
+        
+        PawnAgreement oldAgreement = pawnAgreements.get(findItemIndex(oldId));
+        oldAgreement.setClientID(newAgreement.getClientID());;
+        oldAgreement.setItemID(newAgreement.getItemID());
+        oldAgreement.setAgreementStartingDate(newAgreement.getAgreementStartingDate());
+        oldAgreement.setAgreementEndingDate(newAgreement.getAgreementEndingDate());
+        oldAgreement.setAgreementConditions(newAgreement.getAgreementConditions());
+        oldAgreement.setAgreementDescription(newAgreement.getAgreementDescription());
+     }
     
+    /**
+     * @param 
+     * @return all the Agreements 
+     */
+
+    public  ArrayList<PawnAgreement> getAllAgreements(){
+       
+        return(pawnAgreements);
+
+     }
+
+
 }

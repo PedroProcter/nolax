@@ -90,7 +90,9 @@ public class ItemsListManage implements CanGetDBConnection {
      * @param itemtId
      */
      public void deleteItem(String itemId){
-         this.items.remove(this.findItemIndex(itemId));
+        
+
+        this.items.remove(this.findItemIndex(itemId));
      }
 
      /**
@@ -98,6 +100,8 @@ public class ItemsListManage implements CanGetDBConnection {
      * @param ItemId
      * @return The Item found. If there if no Item found, then return null
      */
+
+
 
      public PawnedItem getItem(String itemId){
          PawnedItem itemFound = null;
@@ -107,8 +111,29 @@ public class ItemsListManage implements CanGetDBConnection {
          return itemFound;
      }
 
-	public ArrayList<PawnedItem> getAllItems() {
-		return this.items;
-	}
+     /**
+     * @param oldId,newItem
+     * @return change the values of our items
+     */
+
+     public void changeItem(String oldId, PawnedItem newItem){
+        
+        PawnedItem oldItem = items.get(findItemIndex(oldId));
+        oldItem.setItemName(newItem.getItemName());
+        oldItem.setItemEstimateValue(newItem.getItemEstimateValue());
+        oldItem.setItemDescription(newItem.getItemDescription());
+
+     }
+
+    /**
+     * @param 
+     * @return all the Items 
+     */
+
+     public  ArrayList<PawnedItem> getAllItems(){
+       
+        return(items);
+
+     }
 
 }
