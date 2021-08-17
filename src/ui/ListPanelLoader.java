@@ -33,6 +33,15 @@ public class ListPanelLoader {
 	}
 	
 	public void populateListPanel(ClientsListManager clientsManager, String onlyIfContains) {
+		JPanel rule = new JPanel();
+		targetContainer.add(rule);
+		rule.setBackground(light_gray);
+		JLabel idLabel = new JLabel("|   ID   ");
+		rule.add(idLabel);
+		JLabel nameLabel = new JLabel("|   Name   |");
+		rule.add(nameLabel);
+		JLabel emailLabel = new JLabel("   Email   |");
+		rule.add(emailLabel);
 		
 		ArrayList<Client> clients = clientsManager.getAllClients();
 		
@@ -48,7 +57,7 @@ public class ListPanelLoader {
 				card.setCursor(new Cursor(Cursor.HAND_CURSOR));
 				cardContainer.add(card);
 				
-				JLabel clientInfoLabel = new JLabel(client.getClientID() + "        " + client.getClientName() + "  " + client.getClientLastname() + "        " + client.getClientEmail());
+				JLabel clientInfoLabel = new JLabel(client.getClientID() + "    |    " + client.getClientName() + "  " + client.getClientLastname() + "    |    " + client.getClientEmail());
 				card.add(clientInfoLabel);
 				
 				card.addMouseListener(new MouseAdapter() {
@@ -68,6 +77,17 @@ public class ListPanelLoader {
 	
 
 	public void populateListPanel(AgreementsListManager agreementsManager, String onlyIfContains) {
+		JPanel rule = new JPanel();
+		targetContainer.add(rule);
+		rule.setBackground(light_gray);
+		JLabel idLabel = new JLabel("|   ID   |");
+		rule.add(idLabel);
+		JLabel itemIDLabel = new JLabel("   Item ID   |");
+		rule.add(itemIDLabel);
+		JLabel nameLabel = new JLabel("   Start   |");
+		rule.add(nameLabel);
+		JLabel emailLabel = new JLabel("   End   |");
+		rule.add(emailLabel);
 		
 		ArrayList<PawnAgreement> agreements = agreementsManager.getAllAgreements();
 		
@@ -83,7 +103,7 @@ public class ListPanelLoader {
 				card.setCursor(new Cursor(Cursor.HAND_CURSOR));
 				cardContainer.add(card);
 				
-				JLabel agreementInfoLabel = new JLabel(agreement.getAgreementID() + "        " + agreement.getItemID() + "        " + agreement.getAgreementStartingDate() + "    " + agreement.getAgreementEndingDate());
+				JLabel agreementInfoLabel = new JLabel(agreement.getAgreementID() + "    |    " + agreement.getItemID() + "    |    " + agreement.getAgreementStartingDate() + "  |  " + agreement.getAgreementEndingDate());
 				card.add(agreementInfoLabel);
 				
 				card.addMouseListener(new MouseAdapter() {
@@ -101,6 +121,15 @@ public class ListPanelLoader {
 	
 
 	public void populateListPanel(ItemsListManager itemsManager, String onlyIfContains) {
+		JPanel rule = new JPanel();
+		targetContainer.add(rule);
+		rule.setBackground(light_gray);
+		JLabel idLabel = new JLabel("|   ID   ");
+		rule.add(idLabel);
+		JLabel nameLabel = new JLabel("|   Name   |");
+		rule.add(nameLabel);
+		JLabel emailLabel = new JLabel("   Value   |");
+		rule.add(emailLabel);
 		
 		ArrayList<PawnedItem> items = itemsManager.getAllItems();
 		
@@ -116,7 +145,7 @@ public class ListPanelLoader {
 				card.setCursor(new Cursor(Cursor.HAND_CURSOR));
 				cardContainer.add(card);
 				
-				JLabel itemInfoLabel = new JLabel(item.getItemID() + "        " + item.getItemName() + "        " + item.getItemEstimateValue());
+				JLabel itemInfoLabel = new JLabel(item.getItemID() + "   |     " + item.getItemName() + "    |    " + item.getItemEstimateValue());
 				card.add(itemInfoLabel);
 				
 				card.addMouseListener(new MouseAdapter() {
