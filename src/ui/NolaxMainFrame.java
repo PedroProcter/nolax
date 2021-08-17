@@ -284,8 +284,10 @@ public class NolaxMainFrame extends JFrame {
 		
 		searchTextField.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyTyped(KeyEvent e) {
+			public void keyReleased(KeyEvent e) {
 				listContainer.removeAll();
+				listContainer.revalidate();
+				listContainer.repaint();
 				
 				switch (listTitle.getText()) {
 				
@@ -304,8 +306,7 @@ public class NolaxMainFrame extends JFrame {
 					default:
 						break;
 				}
-				listContainer.revalidate();
-				listContainer.repaint();
+				
 			}
 		});
 		
@@ -320,6 +321,9 @@ public class NolaxMainFrame extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				clientsManager.dumpAllClients();
+				clientsManager.loadAllClients();
+				
 				switch (listTitle.getText()) {
 				
 				case "Clients": 
@@ -356,7 +360,8 @@ public class NolaxMainFrame extends JFrame {
 				buttonPanelClients.setBackground(dark_blue_1);
 			}
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
+				clientsManager.dumpAllClients();
 				clientsManager.loadAllClients();
 				listTitle.setText("Clients");
 				listContainer.removeAll();
@@ -364,7 +369,7 @@ public class NolaxMainFrame extends JFrame {
 				listContainer.repaint();
 				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
 				listFiller.populateListPanel(clientsManager, "");
-				clientsManager.dumpAllClients();
+				
 				
 			}
 		});
@@ -379,7 +384,8 @@ public class NolaxMainFrame extends JFrame {
 				buttonPanelAgreements.setBackground(dark_blue_1);
 			}
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
+				agreementsManager.dumpAllAgreements();
 				agreementsManager.loadAllAgreements();
 				listTitle.setText("Agreements");
 				listContainer.removeAll();
@@ -387,7 +393,7 @@ public class NolaxMainFrame extends JFrame {
 				listContainer.repaint();
 				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
 				listFiller.populateListPanel(agreementsManager, "");
-				agreementsManager.dumpAllAgreements();
+				
 			}
 		});
 		
@@ -401,7 +407,8 @@ public class NolaxMainFrame extends JFrame {
 				buttonPanelItems.setBackground(dark_blue_1);
 			}
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
+				itemsManager.dumpAllItems();
 				itemsManager.loadAllItems();
 				listTitle.setText("Items");
 				listContainer.removeAll();
@@ -409,7 +416,7 @@ public class NolaxMainFrame extends JFrame {
 				listContainer.repaint();
 				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
 				listFiller.populateListPanel(itemsManager, "");
-				itemsManager.dumpAllItems();
+				
 				
 			}
 		});
