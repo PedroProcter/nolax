@@ -16,6 +16,9 @@ import dbManagers.AgreementsListManager;
 import java.awt.FlowLayout;
 import java.awt.Window.Type;
 import javax.swing.JButton;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JTextArea;
@@ -92,6 +95,18 @@ public class AgreementMoreInfoCard {
 		textField_1.setText(agreement.getClientID());
 		textField_1.setColumns(10);
 		textField_1.setBorder(new LineBorder(new Color(171, 173, 179), 1, true));
+		textField_1.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (textField_1.getText().length() > 11) {
+					textField_1.setBorder(new LineBorder(Color.RED, 1, true));
+				}else if (textField_1.getText().length() == 11) {
+					textField_1.setBorder(new LineBorder(new Color(0, 200, 0), 1, true));
+				}else {
+					textField_1.setBorder(new LineBorder(new Color(171, 173, 179), 1, true));
+				}
+			}
+		});
 		panel_2.add(textField_1);
 		
 		JPanel panel_1_2 = new JPanel();

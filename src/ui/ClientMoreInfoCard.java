@@ -18,6 +18,8 @@ import java.awt.Window.Type;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ClientMoreInfoCard {
 	private JTextField textField;
@@ -64,8 +66,21 @@ public class ClientMoreInfoCard {
 		panel.setBackground(Color.WHITE);
 		
 		textField = new JTextField();
-		textField.setText(client.getClientID());
 		textField.setBorder(new LineBorder(new Color(171, 173, 179), 1, true));
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (textField.getText().length() > 11) {
+					textField.setBorder(new LineBorder(Color.RED, 1, true));
+				}else if (textField.getText().length() == 11) {
+					textField.setBorder(new LineBorder(new Color(0, 200, 0), 1, true));
+				}else {
+					textField.setBorder(new LineBorder(new Color(171, 173, 179), 1, true));
+				}
+			}
+		});
+		textField.setText(client.getClientID());
+		
 		panel.add(textField);
 		textField.setColumns(10);
 		
