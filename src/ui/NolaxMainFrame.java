@@ -357,6 +357,7 @@ public class NolaxMainFrame extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				clientsManager.loadAllClients();
 				listTitle.setText("Clients");
 				listContainer.removeAll();
 				listContainer.revalidate();
@@ -379,6 +380,7 @@ public class NolaxMainFrame extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				agreementsManager.loadAllAgreements();
 				listTitle.setText("Agreements");
 				listContainer.removeAll();
 				listContainer.revalidate();
