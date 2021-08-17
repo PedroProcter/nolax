@@ -367,7 +367,7 @@ public class NolaxMainFrame extends JFrame {
 				listContainer.removeAll();
 				listContainer.revalidate();
 				listContainer.repaint();
-				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
+				//listContainerLayout.setRows(listContainerLayout.getRows() + 1);
 				listFiller.populateListPanel(clientsManager, "");
 				
 				
@@ -391,7 +391,7 @@ public class NolaxMainFrame extends JFrame {
 				listContainer.removeAll();
 				listContainer.revalidate();
 				listContainer.repaint();
-				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
+				//listContainerLayout.setRows(listContainerLayout.getRows() + 1);
 				listFiller.populateListPanel(agreementsManager, "");
 				
 			}
@@ -414,7 +414,7 @@ public class NolaxMainFrame extends JFrame {
 				listContainer.removeAll();
 				listContainer.revalidate();
 				listContainer.repaint();
-				listContainerLayout.setRows(listContainerLayout.getRows() + 1);
+				//listContainerLayout.setRows(listContainerLayout.getRows() + 1);
 				listFiller.populateListPanel(itemsManager, "");
 				
 				
