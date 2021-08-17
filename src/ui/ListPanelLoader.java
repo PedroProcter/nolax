@@ -7,7 +7,12 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -99,7 +104,27 @@ public class ListPanelLoader {
 				cardContainer.setBackground(light_gray);
 				JPanel card = new JPanel();
 				card.setBackground(light_gray);
-				card.setBorder(new LineBorder(Color.GRAY, 1, true));
+				
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
+				SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+				LocalDateTime now = LocalDateTime.now();
+				
+				try {
+					Date systemDateTime = parser.parse(dtf.format(now));
+					Date agreementEndDateTime = parser.parse(agreement.getAgreementEndingDate());
+					
+					if (systemDateTime.compareTo(agreementEndDateTime) < 0) {
+						card.setBorder(new LineBorder(Color.GRAY, 1, true));
+					}else if (systemDateTime.compareTo(agreementEndDateTime) > 0) {
+						card.setBorder(new LineBorder(Color.RED, 1, true));
+					}else if (systemDateTime.compareTo(agreementEndDateTime) == 0) {
+						card.setBorder(new LineBorder(Color.GRAY, 1, true));
+					}
+				} catch (ParseException e1) {
+					card.setBorder(new LineBorder(Color.GRAY, 1, true));
+					e1.printStackTrace();
+				}
+				
 				card.setCursor(new Cursor(Cursor.HAND_CURSOR));
 				cardContainer.add(card);
 				
