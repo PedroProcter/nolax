@@ -221,12 +221,12 @@ public class AgreementMoreInfoCard {
 				agreement.setAgreementConditions(textArea_2.getText());
 				agreement.Comments = textArea_1.getText();
 				
+				targetManager.changeAgreement(textField.getText(), agreement);
+				
 				targetContainer.removeAll();
 				targetContainer.revalidate();
 				listReloader.populateListPanel(targetManager, "");
 				targetContainer.repaint();
-				
-				targetManager.changeAgreement(textField.getText(), agreement);
 			}
 		});
 		panel_7.add(btnNewButton);
@@ -236,7 +236,6 @@ public class AgreementMoreInfoCard {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				targetManager.deleteAgreement(agreement.getAgreementID());
-
 
 				targetContainer.removeAll();
 				targetContainer.revalidate();

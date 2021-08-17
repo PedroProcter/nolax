@@ -183,12 +183,12 @@ public class ClientMoreInfoCard {
 				client.setClientEmail(textField_4.getText());
 				client.setClientAddress(textField_5.getText());
 				
+				targetManager.changeItem(textField.getText(), client);
+				
 				targetContainer.removeAll();
 				targetContainer.revalidate();
 				listReloader.populateListPanel(targetManager, "");
 				targetContainer.repaint();
-				
-				targetManager.changeItem(textField.getText(), client);
 			}
 		});
 		panel_7.add(btnNewButton);
@@ -198,7 +198,6 @@ public class ClientMoreInfoCard {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				targetManager.deleteClient(client.getClientID());
-
 
 				targetContainer.removeAll();
 				targetContainer.revalidate();
