@@ -30,6 +30,8 @@ public class AgreementsListManager implements CanGetDBConnection {
      * 
      */
     public void loadAllAgreements() {
+    	pawnAgreements.clear();
+    	
         String sqlQuery = "SELECT * FROM agreements";
 
         try (Statement statement = this.dbConnection.createStatement()) {

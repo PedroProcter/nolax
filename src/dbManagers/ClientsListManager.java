@@ -28,6 +28,8 @@ public class ClientsListManager implements CanGetDBConnection {
      * 
      */
     public void loadAllClients() {
+    	clients.clear();
+    	
         String sqlQuery = "SELECT * FROM clients";
 
         try (Statement statement = this.dbConnection.createStatement()) {
